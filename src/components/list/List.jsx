@@ -5,10 +5,13 @@ import Lead from '../leads/Lead';
 import Employee from '../employees/Employee';
 import Product from '../products/Product';
 import Invoice from '../invoices/Invoice';
+import NewEntryButton from '../buttons/NewEntryButton';
 import './List.css';
 
 const List = ({ type }) => {
 	const [list, setList] = useState([]);
+	const [formButton, setFormButton] = useState();
+
 	switch (type) {
 		case 'orders':
 			fetch('http://localhost:8088/orders?_expand=customer')
@@ -20,6 +23,7 @@ const List = ({ type }) => {
 						);
 					});
 					setList(orders);
+					setFormButton(<NewEntryButton type={type} />);
 				});
 			break;
 		case 'customers':
@@ -35,6 +39,7 @@ const List = ({ type }) => {
 						);
 					});
 					setList(customers);
+					setFormButton(<NewEntryButton type={type} />);
 				});
 			break;
 		case 'employees':
@@ -50,6 +55,7 @@ const List = ({ type }) => {
 						);
 					});
 					setList(employees);
+					setFormButton(<NewEntryButton type={type} />);
 				});
 			break;
 		case 'leads':
@@ -60,6 +66,7 @@ const List = ({ type }) => {
 						return <Lead key={`lead--${lead.id}`} lead={lead} />;
 					});
 					setList(leads);
+					setFormButton(<NewEntryButton type={type} />);
 				});
 			break;
 		case 'products':
@@ -75,6 +82,7 @@ const List = ({ type }) => {
 						);
 					});
 					setList(products);
+					setFormButton(<NewEntryButton type={type} />);
 				});
 			break;
 		case 'invoices':
@@ -90,14 +98,17 @@ const List = ({ type }) => {
 						);
 					});
 					setList(invoices);
+					setFormButton(<NewEntryButton type={type} />);
 				});
 			break;
 		default:
 			break;
 	}
+
 	return (
 		<div className='flex'>
 			<div>Search Bar</div>
+			<div>{formButton}</div>
 			<div className='flex flex-column list-item'>{list}</div>
 		</div>
 	);

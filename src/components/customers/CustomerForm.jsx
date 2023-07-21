@@ -1,56 +1,73 @@
 import { useState } from 'react';
-import './LeadForm.css';
 
-const LeadForm = () => {
-	const [leadForm, setLeadForm] = useState({
+const CustomerForm = () => {
+	const [customerForm, setCustomerForm] = useState({
 		companyName: '',
+		address: '',
+		companyPhone: '',
 		contactFirstName: '',
 		contactLastName: '',
 		contactEmail: '',
 		contactPhone: '',
-		address: '',
-		companyPhone: '',
-		leadStatusId: 1,
+		userId: 0,
 	});
 
 	const handleSaveButton = (e) => {
 		e.preventDefault();
+
+		const userObj = {
+			firstName: customerForm.contactFirstName,
+			lastName: customerForm.contactLastName,
+			phone: customerForm.contactPhone,
+			email: customerForm.email,
+		};
 
 		const options = {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(leadForm),
+			body: JSON.stringify(userObj),
 		};
 
-		fetch('http://localhost:8088/leads', options).then(() => {
-			setLeadForm({
-				companyName: '',
-				contactFirstName: '',
-				contactLastName: '',
-				contactEmail: '',
-				contactPhone: '',
-				address: '',
-				companyPhone: '',
-				leadStatusId: 1,
+		fetch('http://localhost:8088/users', options)
+			.then((res) => res.json())
+			.then((data) => {
+				const options = {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(customerForm),
+				};
+
+				fetch('http://localhost:8088/customers', options).then(() => {
+					setCustomerForm({
+						companyName: '',
+						address: '',
+						companyPhone: '',
+						contactFirstName: '',
+						contactLastName: '',
+						contactEmail: '',
+						contactPhone: '',
+						userId: data.id,
+					});
+				});
 			});
-		});
 	};
 
 	return (
 		<form>
-			<h2>New Lead</h2>
 			<fieldset>
 				<div className='form-group'>
 					<label htmlFor='companyName-input'>Company Name: </label>
 					<input
 						type='text'
 						id='companyName-input'
-						value={leadForm.companyName}
+						value={customerForm.companyName}
 						onChange={(e) => {
-							setLeadForm({
-								...leadForm,
+							setCustomerForm({
+								...customerForm,
 								companyName: e.target.value,
 							});
 						}}
@@ -65,10 +82,10 @@ const LeadForm = () => {
 					<input
 						type='text'
 						id='contactFirstName-input'
-						value={leadForm.contactFirstName}
+						value={customerForm.contactFirstName}
 						onChange={(e) => {
-							setLeadForm({
-								...leadForm,
+							setCustomerForm({
+								...customerForm,
 								contactFirstName: e.target.value,
 							});
 						}}
@@ -83,10 +100,10 @@ const LeadForm = () => {
 					<input
 						type='text'
 						id='contactLastName-input'
-						value={leadForm.contactLastName}
+						value={customerForm.contactLastName}
 						onChange={(e) => {
-							setLeadForm({
-								...leadForm,
+							setCustomerForm({
+								...customerForm,
 								contactLastName: e.target.value,
 							});
 						}}
@@ -99,10 +116,10 @@ const LeadForm = () => {
 					<input
 						type='text'
 						id='contactEmail-input'
-						value={leadForm.contactEmail}
+						value={customerForm.contactEmail}
 						onChange={(e) => {
-							setLeadForm({
-								...leadForm,
+							setCustomerForm({
+								...customerForm,
 								contactEmail: e.target.value,
 							});
 						}}
@@ -117,10 +134,10 @@ const LeadForm = () => {
 					<input
 						type='text'
 						id='contactPhone-input'
-						value={leadForm.contactPhone}
+						value={customerForm.contactPhone}
 						onChange={(e) => {
-							setLeadForm({
-								...leadForm,
+							setCustomerForm({
+								...customerForm,
 								contactPhone: e.target.value,
 							});
 						}}
@@ -133,10 +150,10 @@ const LeadForm = () => {
 					<input
 						type='text'
 						id='address-input'
-						value={leadForm.address}
+						value={customerForm.address}
 						onChange={(e) => {
-							setLeadForm({
-								...leadForm,
+							setCustomerForm({
+								...customerForm,
 								address: e.target.value,
 							});
 						}}
@@ -151,10 +168,10 @@ const LeadForm = () => {
 					<input
 						type='text'
 						id='companyPhone-input'
-						value={leadForm.companyPhone}
+						value={customerForm.companyPhone}
 						onChange={(e) => {
-							setLeadForm({
-								...leadForm,
+							setCustomerForm({
+								...customerForm,
 								companyPhone: e.target.value,
 							});
 						}}
@@ -164,10 +181,10 @@ const LeadForm = () => {
 			<button
 				className='btn btn-primary'
 				onClick={(e) => handleSaveButton(e)}>
-				Save Lead
+				Save Customer
 			</button>
 		</form>
 	);
 };
 
-export default LeadForm;
+export default CustomerForm;

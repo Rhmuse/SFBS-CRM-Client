@@ -47,19 +47,25 @@ const List = ({ type }) => {
 					});
 				break;
 			case 'employees':
-				fetch('http://localhost:8088/employees')
+				fetch('http://localhost:8088/locations')
 					.then((res) => res.json())
-					.then((e) => {
-						const employees = e.map((employee) => {
-							return (
-								<Employee
-									key={`employee--${employee.id}`}
-									employee={employee}
-								/>
-							);
-						});
-						setList(employees);
-						setFormButton(<NewEntryButton type={type} />);
+					.then((data) => {
+						const locations = data;
+						fetch('http://localhost:8088/employees/?_expand=user')
+							.then((res) => res.json())
+							.then((e) => {
+								const employees = e.map((employee) => {
+									return (
+										<Employee
+											key={`employee--${employee.id}`}
+											employee={employee}
+											locations={locations}
+										/>
+									);
+								});
+								setList(employees);
+								setFormButton(<NewEntryButton type={type} />);
+							});
 					});
 				break;
 			case 'leads':

@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { OrderFormContext } from './OrderFormContainer';
 
-const LineItem = ({ products, itemKey, orderItems, setOrderItems }) => {
+const LineItem = ({ products, itemKey }) => {
 	// TODO: Add search feature
 	const [productId, setProductId] = useState(0);
 	const [product, setProduct] = useState({
@@ -14,6 +15,8 @@ const LineItem = ({ products, itemKey, orderItems, setOrderItems }) => {
 	const [quantity, setQuantity] = useState(0);
 	const [maxQuantity, setMaxQuantity] = useState(0);
 	const [lineTotal, setLineTotal] = useState(0);
+	const { orderItems } = useContext(OrderFormContext);
+	const { setOrderItems } = useContext(OrderFormContext);
 
 	useEffect(() => {
 		const foundItemIndex = orderItems.findIndex(

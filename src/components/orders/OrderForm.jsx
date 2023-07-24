@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import LineItem from './LineItem';
 import Utilities from '../../Utilities';
+import { OrderFormContext } from './OrderFormContainer';
 
 const Utility = new Utilities();
+const generator = Utility.iteratorGenerator();
 
 const OrderForm = () => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
@@ -15,7 +17,8 @@ const OrderForm = () => {
 		orderDate: Date.now(),
 		orderStatusId: 1,
 	});
-	const [orderItems, setOrderItems] = useState([]);
+	const { orderItems } = useContext(OrderFormContext);
+	const [lineItemListChildren, setLineItemListChildren] = useState([]);
 
 	useState(() => {
 		fetch('http://localhost:8088/customers')
@@ -29,6 +32,24 @@ const OrderForm = () => {
 				setProducts(data);
 			});
 	}, []);
+
+	const addLineItem = (e) => {
+		e.preventDefault();
+
+		let childrenCopy = [...lineItemListChildren];
+
+		childrenCopy.push(
+			<fieldset key={`lineItemKey-${generator.next().value}`}>
+				{
+					<LineItem
+						products={products}
+						itemKey={`lineItem-${generator.next().value}`}
+					/>
+				}
+			</fieldset>
+		);
+		setLineItemListChildren(childrenCopy);
+	};
 
 	return (
 		<form>
@@ -55,19 +76,15 @@ const OrderForm = () => {
 					</select>
 				</div>
 			</fieldset>
-			{/* TODO: Add a add lineItemButton */}
-			<fieldset>
-				{
-					<LineItem
-						products={products}
-						itemKey={`lineItem-${
-							Utility.iteratorGenerator().next().value
-						}`}
-						orderItems={orderItems}
-						setOrderItems={setOrderItems}
-					/>
-				}
-			</fieldset>
+			<button
+				onClick={(e) => {
+					addLineItem(e);
+				}}>
+				Add Line Item
+			</button>
+			<div className='lineItemList' key={`lineItemList}`}>
+				{lineItemListChildren}
+			</div>
 		</form>
 	);
 };

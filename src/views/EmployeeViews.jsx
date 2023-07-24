@@ -5,7 +5,7 @@ import List from '../components/list/List';
 import LeadForm from '../components/leads/LeadForm';
 import CustomerForm from '../components/customers/CustomerForm';
 import EmployeeForm from '../components/employees/EmployeeFrom';
-import OrderForm from '../components/orders/OrderForm';
+import OrderFormContainer from '../components/orders/OrderFormContainer';
 
 const EmployeeViews = () => {
 	return (
@@ -20,7 +20,7 @@ const EmployeeViews = () => {
 				<Route path='/leads/form' element={<LeadForm />} />
 
 				<Route path='/orders' element={<List type='orders' />} />
-				<Route path='/orders/form' element={<OrderForm />} />
+				<Route path='/orders/form' element={<OrderFormContainer />} />
 
 				<Route path='/invoices' element={<List type='invoices' />} />
 

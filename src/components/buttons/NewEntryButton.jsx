@@ -7,7 +7,7 @@ const NewEntryButton = ({ type }) => {
 	const handleClick = (e) => {
 		e.preventDefault();
 
-		navigate(`/${type}form`);
+		navigate(`/${type}/form`);
 	};
 
 	return (

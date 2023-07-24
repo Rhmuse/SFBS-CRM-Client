@@ -1,9 +1,10 @@
+import Utilities from '../Utilities';
 import EmployeeViews from './EmployeeViews';
 
 const ApplicationViews = () => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 
-	if (crmUserObject.roles.find((r) => r === 'Admin')) {
+	if (Utilities.isEmployee(crmUserObject)) {
 		return <EmployeeViews />;
 	} else {
 		return <>oops</>;

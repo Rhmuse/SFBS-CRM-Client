@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './EmployeeForm.css';
+import { useParams } from 'react-router';
 
 const genderArr = ['Female', 'Male', 'Nonbinary', 'N/A'];
 
@@ -18,6 +19,8 @@ const EmployeeForm = () => {
 	const [locations, setLocations] = useState([]);
 	const [roles, setRoles] = useState([]);
 
+	const params = useParams();
+
 	useEffect(() => {
 		fetch('http://localhost:8088/locations')
 			.then((res) => res.json())
@@ -29,6 +32,32 @@ const EmployeeForm = () => {
 			.then((data) => {
 				setRoles(data);
 			});
+
+		if (params['*'].includes('edit')) {
+			fetch(`http://localhost:8088/userRoles?userId=${params.userId}`)
+				.then((res) => res.json())
+				.then((userRoles) => {
+					let userRoleIdArr = [];
+					for (const role of userRoles) {
+						userRoleIdArr.push(role.roleId);
+					}
+					fetch(`http://localhost:8088/users/${params.userId}`)
+						.then((res) => res.json())
+						.then((data) => {
+							setEmployeeForm({
+								firstName: data.firstName,
+								lastName: data.lastName,
+								email: data.email,
+								phone: data.phone,
+								payRate: parseFloat(params.payRate),
+								gender: params.gender,
+								hireDate: params.hireDate,
+								roles: userRoleIdArr,
+								locationId: parseInt(params.locationId),
+							});
+						});
+				});
+		}
 	}, []);
 
 	const handleSaveButton = (e) => {
@@ -99,6 +128,101 @@ const EmployeeForm = () => {
 					roles: [],
 					locationId: 0,
 				});
+			});
+	};
+
+	const handleEditButton = (e) => {
+		e.preventDefault();
+
+		const userObj = {
+			firstName: employeeForm.firstName,
+			lastName: employeeForm.lastName,
+			phone: employeeForm.phone,
+			email: employeeForm.email,
+		};
+
+		const options = {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(userObj),
+		};
+
+		fetch(`http://localhost:8088/users/${params.userId}`, options)
+			.then((res) => res.json())
+			.then((data) => {
+				const employeeObj = {
+					userId: data.id,
+					payRate: employeeForm.payRate,
+					gender: employeeForm.gender,
+					hireDate: employeeForm.hireDate,
+					locationId: employeeForm.locationId,
+				};
+
+				const employeeOptions = {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(employeeObj),
+				};
+
+				fetch(
+					`http://localhost:8088/employees/${params.employeeId}`,
+					employeeOptions
+				);
+
+				fetch(`http://localhost:8088/userRoles?userId=${params.userId}`)
+					.then((res) => res.json())
+					.then((userRoles) => {
+						for (const userRole of userRoles) {
+							const userRolesDeleteOptions = {
+								method: 'DELETE',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+							};
+							fetch(
+								`http://localhost:8088/userRoles/${userRole.id}`,
+								userRolesDeleteOptions
+							);
+						}
+					})
+					.then(() => {
+						employeeForm.roles.forEach((r) => {
+							const userRoleObj = {
+								userId: parseInt(params.userId),
+								roleId: r,
+							};
+
+							const userRoleOptions = {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify(userRoleObj),
+							};
+
+							fetch(
+								'http://localhost:8088/userRoles',
+								userRoleOptions
+							);
+						});
+					})
+					.then(() => {
+						setEmployeeForm({
+							firstName: '',
+							lastName: '',
+							email: '',
+							phone: '',
+							payRate: 0,
+							gender: '',
+							hireDate: '',
+							roles: [],
+							locationId: 0,
+						});
+					});
 			});
 	};
 	return (
@@ -249,7 +373,7 @@ const EmployeeForm = () => {
 				<div className='form-group'>
 					<legend>Roles: </legend>
 					<div className='role-input-container'>
-						{/* TODO: Remove Customer as an option and clear checkboxs on send */}
+						{/* TODO: Remove Customer as an option and clear checkboxs on send and populate checkboxes on redirect */}
 						{roles.map((role) => {
 							return (
 								<div key={`role-${role.id}`}>
@@ -293,11 +417,19 @@ const EmployeeForm = () => {
 					</div>
 				</div>
 			</fieldset>
-			<button
-				className='btn btn-primary'
-				onClick={(e) => handleSaveButton(e)}>
-				Save Employee
-			</button>
+			{params['*'].includes('edit') ? (
+				<button
+					className='btn btn-primary'
+					onClick={(e) => handleEditButton(e)}>
+					Save Changes
+				</button>
+			) : (
+				<button
+					className='btn btn-primary'
+					onClick={(e) => handleSaveButton(e)}>
+					Save New Employee
+				</button>
+			)}
 		</form>
 	);
 };

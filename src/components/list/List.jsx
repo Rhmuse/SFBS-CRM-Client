@@ -7,10 +7,13 @@ import Product from '../products/Product';
 import Invoice from '../invoices/Invoice';
 import NewEntryButton from '../buttons/NewEntryButton';
 import './List.css';
+import Utilities from '../../Utilities';
 
 const List = ({ type }) => {
 	const [list, setList] = useState([]);
 	const [formButton, setFormButton] = useState();
+
+	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 
 	useEffect(() => {
 		switch (type) {
@@ -64,7 +67,11 @@ const List = ({ type }) => {
 									);
 								});
 								setList(employees);
-								setFormButton(<NewEntryButton type={type} />);
+								if (Utilities.isManager(crmUserObject))
+									setFormButton(
+										<NewEntryButton type={type} />
+									);
+								else setFormButton('');
 							});
 					});
 				break;

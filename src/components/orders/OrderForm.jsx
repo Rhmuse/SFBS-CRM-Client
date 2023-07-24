@@ -99,7 +99,37 @@ const OrderForm = () => {
 						body: JSON.stringify(itemObj),
 					};
 
-					fetch('http://localhost:8088/orderItems', itemOptions);
+					fetch('http://localhost:8088/orderItems', itemOptions).then(
+						() => {
+							fetch('http://localhost:8088/products')
+								.then((res) => res.json())
+								.then((data) => {
+									const foundProduct = data.find(
+										(p) => p.id === item.productId
+									);
+
+									const productUpdatObj = {
+										...foundProduct,
+										stockQuantity:
+											foundProduct.stockQuantity -
+											item.quantity,
+									};
+
+									const productOptions = {
+										method: 'PUT',
+										headers: {
+											'Content-Type': 'application/json',
+										},
+										body: JSON.stringify(productUpdatObj),
+									};
+
+									fetch(
+										`http://localhost:8088/products/${item.productId}`,
+										productOptions
+									);
+								});
+						}
+					);
 				}
 			});
 	};

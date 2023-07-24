@@ -36,6 +36,7 @@ const LineItem = ({ products, itemKey }) => {
 					productId: productId,
 					itemKey: itemKey,
 					quantity: 0,
+					lineTotal: 0,
 				},
 			]);
 		}
@@ -54,10 +55,11 @@ const LineItem = ({ products, itemKey }) => {
 			copy[foundItemIndex] = {
 				...copy[foundItemIndex],
 				quantity: quantity,
+				lineTotal: lineTotal,
 			};
 			setOrderItems(copy);
 		}
-	}, [quantity]);
+	}, [quantity, lineTotal]);
 
 	useEffect(() => {
 		if (product?.unitPrice) {

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import LineItem from './LineItem';
 import Utilities from '../../Utilities';
 import { OrderFormContext } from './OrderFormContainer';
@@ -15,12 +15,12 @@ const OrderForm = () => {
 		employeeId: crmUserObject.id,
 		customerId: 0,
 		orderDate: Date.now(),
-		orderStatusId: 1,
 	});
+	const [orderTotal, setOrderTotal] = useState(0);
 	const { orderItems } = useContext(OrderFormContext);
 	const [lineItemListChildren, setLineItemListChildren] = useState([]);
 
-	useState(() => {
+	useEffect(() => {
 		fetch('http://localhost:8088/customers')
 			.then((res) => res.json())
 			.then((data) => {
@@ -32,6 +32,16 @@ const OrderForm = () => {
 				setProducts(data);
 			});
 	}, []);
+
+	useEffect(() => {
+		let total = 0;
+		if (orderItems.length > 0) {
+			for (const item of orderItems) {
+				total += item.lineTotal;
+			}
+		}
+		setOrderTotal(total);
+	}, [orderItems]);
 
 	const addLineItem = (e) => {
 		e.preventDefault();
@@ -49,6 +59,49 @@ const OrderForm = () => {
 			</fieldset>
 		);
 		setLineItemListChildren(childrenCopy);
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		const orderObj = {
+			employeeId: orderForm.employeeId,
+			customerId: orderForm.customerId,
+			orderDate: orderForm.orderDate,
+			orderStatusId: 1,
+			totalAmount: orderTotal,
+		};
+
+		const orderOptions = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(orderObj),
+		};
+
+		fetch('http://localhost:8088/orders', orderOptions)
+			.then((res) => res.json())
+			.then((data) => {
+				for (const item of orderItems) {
+					const itemObj = {
+						orderId: data.id,
+						productId: item.productId,
+						quantity: item.quantity,
+						lineTotal: item.lineTotal,
+					};
+
+					const itemOptions = {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(itemObj),
+					};
+
+					fetch('http://localhost:8088/orderItems', itemOptions);
+				}
+			});
 	};
 
 	return (
@@ -85,6 +138,13 @@ const OrderForm = () => {
 			<div className='lineItemList' key={`lineItemList}`}>
 				{lineItemListChildren}
 			</div>
+			<div>Order Total: {orderTotal}</div>
+			<button
+				onClick={(e) => {
+					handleSubmit(e);
+				}}>
+				Submit Order
+			</button>
 		</form>
 	);
 };

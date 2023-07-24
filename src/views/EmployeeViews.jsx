@@ -4,7 +4,7 @@ import List from '../components/list/List';
 // Forms
 import LeadForm from '../components/leads/LeadForm';
 import CustomerForm from '../components/customers/CustomerForm';
-import EmployeeForm from '../components/employees/EmployeeFrom';
+import EmployeeForm from '../components/employees/EmployeeForm';
 import OrderFormContainer from '../components/orders/OrderFormContainer';
 
 const EmployeeViews = () => {

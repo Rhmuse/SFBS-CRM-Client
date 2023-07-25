@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
+import Button from 'react-bootstrap/esm/Button';
 
 const LeadDetails = () => {
 	const [lead, setLead] = useState({});
@@ -38,22 +39,22 @@ const LeadDetails = () => {
 
 	return (
 		<div>
-			<h3>#{lead.id}</h3>
+			<h3>{lead.companyName}</h3>
 			{Utilities.isManager(crmUserObject) ||
 			lead.assignedEmployeeId === crmUserObject.id ? (
 				<>
-					<button
+					<Button
 						onClick={() => {
 							navigate(`/leads/edit/${lead.id}`);
 						}}>
 						Edit
-					</button>
-					<button
+					</Button>
+					<Button
 						onClick={() => {
 							setRenderDialogBox(true);
 						}}>
 						Delete
-					</button>
+					</Button>
 				</>
 			) : (
 				''

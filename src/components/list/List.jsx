@@ -9,6 +9,14 @@ import NewEntryButton from '../buttons/NewEntryButton';
 import './List.css';
 import Utilities from '../../Utilities';
 
+//BootStrap
+import ListGroup from 'react-bootstrap/ListGroup';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 const List = ({ type }) => {
 	const [list, setList] = useState([]);
 	const [formButton, setFormButton] = useState();
@@ -123,14 +131,26 @@ const List = ({ type }) => {
 			default:
 				break;
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [type]);
 
 	return (
-		<div className='flex' key='list'>
-			<div>Search Bar</div>
-			<div>{formButton}</div>
-			<div className='flex flex-column list-item'>{list}</div>
-		</div>
+		<Container key='list' fluid>
+			<Row>
+				<Col>
+					<Form.Control
+						type='text'
+						id='searchBar'
+						placeholder='Search'
+					/>
+				</Col>
+				<Col></Col>
+				<Col>{formButton}</Col>
+			</Row>
+			<Card>
+				<ListGroup>{list}</ListGroup>
+			</Card>
+		</Container>
 	);
 };
 

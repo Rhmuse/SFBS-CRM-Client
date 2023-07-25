@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
+import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
+
 const Employee = ({ employee, locations }) => {
 	const navigate = useNavigate();
 
@@ -10,6 +13,7 @@ const Employee = ({ employee, locations }) => {
 		);
 
 		employee.location = foundLocation;
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleClick = (e) => {
@@ -18,7 +22,7 @@ const Employee = ({ employee, locations }) => {
 	};
 
 	return (
-		<div className='flex-row flex'>
+		<ListGroup.Item className='flex-row flex'>
 			<div className='flex-column'>
 				<p>
 					{employee?.user?.firstName} {employee?.user?.lastName}
@@ -26,8 +30,8 @@ const Employee = ({ employee, locations }) => {
 				<p>Email: {employee?.user?.email}</p>
 				<p>Location: {employee?.location?.name}</p>
 			</div>
-			<button onClick={(e) => handleClick(e)}>Employee Details</button>
-		</div>
+			<Button onClick={(e) => handleClick(e)}>Employee Details</Button>
+		</ListGroup.Item>
 	);
 };
 

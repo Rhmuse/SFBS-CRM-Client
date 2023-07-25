@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router';
 import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
+import Button from 'react-bootstrap/Button';
 
 const ProductDetails = () => {
 	const [product, setProduct] = useState({});
@@ -45,18 +46,18 @@ const ProductDetails = () => {
 			<p>{product.description}</p>
 			{Utilities.isManager(crmUserObject) ? (
 				<>
-					<button
+					<Button
 						onClick={() => {
 							navigate(`/products/edit/${product.id}`);
 						}}>
 						Edit
-					</button>
-					<button
+					</Button>
+					<Button
 						onClick={() => {
 							setRenderDialogBox(true);
 						}}>
 						Delete
-					</button>
+					</Button>
 				</>
 			) : (
 				''

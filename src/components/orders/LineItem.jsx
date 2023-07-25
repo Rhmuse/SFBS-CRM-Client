@@ -1,6 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { OrderFormContext } from './OrderFormContainer';
 
+import Form from 'react-bootstrap/Form';
+
 const LineItem = ({ products, itemKey }) => {
 	// TODO: Add search feature
 	const [productId, setProductId] = useState(0);
@@ -44,6 +46,7 @@ const LineItem = ({ products, itemKey }) => {
 		setProduct(foundProduct);
 		setMaxQuantity(foundProduct?.stockQuantity);
 		setQuantity(0);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [productId]);
 
 	useEffect(() => {
@@ -59,6 +62,7 @@ const LineItem = ({ products, itemKey }) => {
 			};
 			setOrderItems(copy);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [quantity, lineTotal]);
 
 	useEffect(() => {
@@ -71,40 +75,30 @@ const LineItem = ({ products, itemKey }) => {
 
 	return (
 		<div key={itemKey} className='flex-row flex'>
-			<fieldset>
-				<div className='form-group'>
-					<select
-						onChange={(e) =>
-							setProductId(parseInt(e.target.value))
-						}>
-						<option>Select a product...</option>
-						{products.map((p) => {
-							return (
-								<option
-									key={`product-${itemKey}-${p.id}`}
-									value={parseInt(p.id)}>
-									{p.name}
-								</option>
-							);
-						})}
-					</select>
-				</div>
-			</fieldset>
-			<fieldset>
-				<div className='form-group'>
-					<label htmlFor={`quantity-input-${itemKey}`}>
-						Quantity:{' '}
-					</label>
-					<input
-						id={`quantity-input-${itemKey}`}
-						type='number'
-						max={maxQuantity}
-						min={0}
-						value={quantity}
-						onChange={(e) => setQuantity(parseInt(e.target.value))}
-					/>
-				</div>
-			</fieldset>
+			<Form.Select
+				onChange={(e) => setProductId(parseInt(e.target.value))}>
+				<option>Select a product...</option>
+				{products.map((p) => {
+					return (
+						<option
+							key={`product-${itemKey}-${p.id}`}
+							value={parseInt(p.id)}>
+							{p.name}
+						</option>
+					);
+				})}
+			</Form.Select>
+			<Form.Label htmlFor={`quantity-input-${itemKey}`}>
+				Quantity:{' '}
+			</Form.Label>
+			<Form.Control
+				id={`quantity-input-${itemKey}`}
+				type='number'
+				max={maxQuantity}
+				min={0}
+				value={quantity}
+				onChange={(e) => setQuantity(parseInt(e.target.value))}
+			/>
 			<div>
 				<p>Unit Price: {product?.unitPrice}</p>
 				<p>Line Total: {lineTotal}</p>

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Navigate, useNavigate, useParams } from 'react-router';
 
 const ProductForm = () => {
 	const [productForm, setProductForm] = useState({
@@ -8,6 +9,9 @@ const ProductForm = () => {
 		stockQuantity: 0,
 		weightLbs: 0,
 	});
+
+	const params = useParams();
+	const navigate = useNavigate();
 
 	const handleSaveButton = (e) => {
 		e.preventDefault();
@@ -30,6 +34,41 @@ const ProductForm = () => {
 			});
 		});
 	};
+
+	const handleEditButton = (e) => {
+		e.preventDefault();
+
+		const options = {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(productForm),
+		};
+
+		fetch(
+			`http://localhost:8088/products/${params.productId}`,
+			options
+		).then(() => {
+			navigate('/products');
+		});
+	};
+
+	useEffect(() => {
+		if (params['*'].includes('edit')) {
+			fetch(`http://localhost:8088/products/${params.productId}`)
+				.then((res) => res.json())
+				.then((product) => {
+					setProductForm({
+						name: product.name,
+						description: product.description,
+						unitPrice: product.unitPrice,
+						stockQuantity: product.stockQuantity,
+						weightLbs: product.weightLbs,
+					});
+				});
+		}
+	}, []);
 
 	return (
 		<form>
@@ -122,11 +161,19 @@ const ProductForm = () => {
 					/>
 				</div>
 			</fieldset>
-			<button
-				className='btn btn-primary'
-				onClick={(e) => handleSaveButton(e)}>
-				Save Product
-			</button>
+			{params['*'].includes('edit') ? (
+				<button
+					className='btn btn-primary'
+					onClick={(e) => handleEditButton(e)}>
+					Save Changes
+				</button>
+			) : (
+				<button
+					className='btn btn-primary'
+					onClick={(e) => handleSaveButton(e)}>
+					Save New Product
+				</button>
+			)}
 		</form>
 	);
 };

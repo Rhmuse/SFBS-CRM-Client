@@ -7,7 +7,11 @@ import CustomerForm from '../components/customers/CustomerForm';
 import EmployeeForm from '../components/employees/EmployeeForm';
 import OrderFormContainer from '../components/orders/OrderFormContainer';
 import ProductForm from '../components/products/ProductForm';
+
+// Details
 import EmployeeProfile from '../components/employees/EmployeeProfile';
+import ProductDetails from '../components/products/ProductDetails';
+
 import Dashboard from '../components/dashboard/Dashboard';
 
 const EmployeeViews = () => {
@@ -16,27 +20,40 @@ const EmployeeViews = () => {
 			<Route path='/' element={<Outlet />}>
 				<Route path='/dashboard' element={<Dashboard />} />
 
+				{/* Customers */}
 				<Route path='/customers' element={<List type='customers' />} />
 				<Route path='/customers/form' element={<CustomerForm />} />
 
+				{/* Leads */}
 				<Route path='/leads' element={<List type='leads' />} />
 				<Route path='/leads/form' element={<LeadForm />} />
 
+				{/* Orders */}
 				<Route path='/orders' element={<List type='orders' />} />
 				<Route path='/orders/form' element={<OrderFormContainer />} />
 
+				{/* Invoices */}
 				<Route path='/invoices' element={<List type='invoices' />} />
 
+				{/* Products */}
 				<Route path='/products' element={<List type='products' />} />
 				<Route path='/products/form' element={<ProductForm />} />
+				<Route
+					path='/products/:productId'
+					element={<ProductDetails />}
+				/>
+				<Route
+					path='/products/edit/:productId'
+					element={<ProductForm />}
+				/>
 
+				{/* Employees */}
 				<Route path='/employees' element={<List type='employees' />} />
 				<Route path='/employees/form' element={<EmployeeForm />} />
 				<Route
 					path='/employees/edit/:userId/:payRate/:gender/:hireDate/:locationId/:employeeId'
 					element={<EmployeeForm />}
 				/>
-
 				<Route
 					path='/employees/profile/:employeeId'
 					element={<EmployeeProfile />}

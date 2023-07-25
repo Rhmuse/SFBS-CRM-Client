@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import Utilities from '../../Utilities';
+import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 
 const EmployeeProfile = () => {
 	const { employeeId } = useParams();
 	const [employee, setEmployee] = useState({});
 	const [employeeRoles, setEmployeeRoles] = useState([]);
+	const [renderDialogBox, setRenderDialogBox] = useState(false);
+	const [confirmDelete, setConfirmDelete] = useState(false);
 
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 	const navigate = useNavigate();
@@ -31,11 +34,20 @@ const EmployeeProfile = () => {
 			});
 	}, []);
 
-	const handleDelete = (e) => {
-		e.preventDefault();
+	useEffect(() => {
+		if (confirmDelete) {
+			const deleteOptions = {
+				method: 'DELETE',
+			};
 
-		// TODO: add dialog box popup to confirm delete and actually delete
-	};
+			fetch(
+				`http://localhost:8088/employees/${employeeId}`,
+				deleteOptions
+			).then(() => {
+				navigate('/employees');
+			});
+		}
+	}, [confirmDelete]);
 
 	return (
 		<div className='flex flex-column'>
@@ -65,11 +77,19 @@ const EmployeeProfile = () => {
 							}}>
 							Edit
 						</button>
-						<button onClick={(e) => handleDelete(e)}>Delete</button>
+						<button onClick={() => setRenderDialogBox(true)}>
+							Delete
+						</button>
 					</>
 				) : (
 					''
 				)}
+				<AreYouSureDialog
+					isOpen={renderDialogBox}
+					setRenderDialogBox={setRenderDialogBox}
+					setConfirmAction={setConfirmDelete}
+					action={'delete this employee'}
+				/>
 			</div>
 		</div>
 	);

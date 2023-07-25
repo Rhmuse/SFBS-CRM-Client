@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 
-const ProductDetails = () => {
-	const [product, setProduct] = useState({});
+const OrderDetails = () => {
+	const [order, setOrder] = useState({});
+
 	const [renderDialogBox, setRenderDialogBox] = useState(false);
 	const [confirmDelete, setConfirmDelete] = useState(false);
 
-	const { productId } = useParams();
+	const { orderId } = useParams();
 
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetch(`http://localhost:8088/products/${productId}`)
+		fetch(`http://localhost:8088/orders/${orderId}`)
 			.then((res) => res.json())
-			.then((product) => {
-				setProduct(product);
+			.then((order) => {
+				setOrder(order);
 			});
 	}, []);
 
@@ -29,33 +29,24 @@ const ProductDetails = () => {
 			};
 
 			fetch(
-				`http://localhost:8088/products/${productId}`,
+				`http://localhost:8088/orders/${orderId}`,
 				deleteOptions
 			).then(() => {
-				navigate('/products');
+				navigate('/orders');
 			});
 		}
 	}, [confirmDelete]);
 
 	return (
 		<div>
-			<h3>{product.name}</h3>
-			<p>{product.description}</p>
+			<h3>#{order.id}</h3>
 			{Utilities.isManager(crmUserObject) ? (
-				<>
-					<button
-						onClick={() => {
-							navigate(`/products/edit/${product.id}`);
-						}}>
-						Edit
-					</button>
-					<button
-						onClick={() => {
-							setRenderDialogBox(true);
-						}}>
-						Delete
-					</button>
-				</>
+				<button
+					onClick={() => {
+						setRenderDialogBox(true);
+					}}>
+					Delete
+				</button>
 			) : (
 				''
 			)}
@@ -63,10 +54,10 @@ const ProductDetails = () => {
 				isOpen={renderDialogBox}
 				setRenderDialogBox={setRenderDialogBox}
 				setConfirmAction={setConfirmDelete}
-				action={'delete this product'}
+				action={'delete this order'}
 			/>
 		</div>
 	);
 };
 
-export default ProductDetails;
+export default OrderDetails;

@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './LeadForm.css';
+import { useNavigate, useParams } from 'react-router';
 
 const LeadForm = () => {
 	const [leadForm, setLeadForm] = useState({
@@ -12,6 +13,9 @@ const LeadForm = () => {
 		companyPhone: '',
 		leadStatusId: 1,
 	});
+
+	const params = useParams();
+	const navigate = useNavigate();
 
 	const handleSaveButton = (e) => {
 		e.preventDefault();
@@ -38,6 +42,42 @@ const LeadForm = () => {
 		});
 	};
 
+	const handleEditButton = (e) => {
+		e.preventDefault();
+
+		const options = {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(leadForm),
+		};
+
+		fetch(`http://localhost:8088/leads/${params.leadId}`, options).then(
+			() => {
+				navigate('/leads');
+			}
+		);
+	};
+
+	useEffect(() => {
+		if (params['*'].includes('edit')) {
+			fetch(`http://localhost:8088/leads/${params.leadId}`)
+				.then((res) => res.json())
+				.then((lead) => {
+					setLeadForm({
+						companyName: lead.companyName,
+						contactFirstName: lead.contactFirstName,
+						contactLastName: lead.contactLastName,
+						contactEmail: lead.contactEmail,
+						contactPhone: lead.contactPhone,
+						address: lead.address,
+						companyPhone: lead.companyPhone,
+						leadStatusId: lead.leadStatusId,
+					});
+				});
+		}
+	}, []);
 	return (
 		<form>
 			<h2>New Lead</h2>
@@ -161,11 +201,19 @@ const LeadForm = () => {
 					/>
 				</div>
 			</fieldset>
-			<button
-				className='btn btn-primary'
-				onClick={(e) => handleSaveButton(e)}>
-				Save Lead
-			</button>
+			{params['*'].includes('edit') ? (
+				<button
+					className='btn btn-primary'
+					onClick={(e) => handleEditButton(e)}>
+					Save Changes
+				</button>
+			) : (
+				<button
+					className='btn btn-primary'
+					onClick={(e) => handleSaveButton(e)}>
+					Save New Lead
+				</button>
+			)}
 		</form>
 	);
 };

@@ -13,6 +13,8 @@ import EmployeeProfile from '../components/employees/EmployeeProfile';
 import ProductDetails from '../components/products/ProductDetails';
 
 import Dashboard from '../components/dashboard/Dashboard';
+import OrderDetails from '../components/orders/OrderDetails';
+import LeadDetails from '../components/leads/LeadDetails';
 
 const EmployeeViews = () => {
 	return (
@@ -23,14 +25,18 @@ const EmployeeViews = () => {
 				{/* Customers */}
 				<Route path='/customers' element={<List type='customers' />} />
 				<Route path='/customers/form' element={<CustomerForm />} />
+				<Route path='/customers/:customerId' element />
 
 				{/* Leads */}
 				<Route path='/leads' element={<List type='leads' />} />
 				<Route path='/leads/form' element={<LeadForm />} />
+				<Route path='/leads/:leadId' element={<LeadDetails />} />
+				<Route path='/leads/edit/:leadId' element={<LeadForm />} />
 
 				{/* Orders */}
 				<Route path='/orders' element={<List type='orders' />} />
 				<Route path='/orders/form' element={<OrderFormContainer />} />
+				<Route path='/orders/:orderId' element={<OrderDetails />} />
 
 				{/* Invoices */}
 				<Route path='/invoices' element={<List type='invoices' />} />

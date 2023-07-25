@@ -1,24 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 
-const ProductDetails = () => {
-	const [product, setProduct] = useState({});
+const LeadDetails = () => {
+	const [lead, setLead] = useState({});
+
 	const [renderDialogBox, setRenderDialogBox] = useState(false);
 	const [confirmDelete, setConfirmDelete] = useState(false);
 
-	const { productId } = useParams();
+	const { leadId } = useParams();
 
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetch(`http://localhost:8088/products/${productId}`)
+		fetch(`http://localhost:8088/leads/${leadId}`)
 			.then((res) => res.json())
-			.then((product) => {
-				setProduct(product);
+			.then((lead) => {
+				setLead(lead);
 			});
 	}, []);
 
@@ -28,24 +28,23 @@ const ProductDetails = () => {
 				method: 'DELETE',
 			};
 
-			fetch(
-				`http://localhost:8088/products/${productId}`,
-				deleteOptions
-			).then(() => {
-				navigate('/products');
-			});
+			fetch(`http://localhost:8088/leads/${leadId}`, deleteOptions).then(
+				() => {
+					navigate('/leads');
+				}
+			);
 		}
 	}, [confirmDelete]);
 
 	return (
 		<div>
-			<h3>{product.name}</h3>
-			<p>{product.description}</p>
-			{Utilities.isManager(crmUserObject) ? (
+			<h3>#{lead.id}</h3>
+			{Utilities.isManager(crmUserObject) ||
+			lead.assignedEmployeeId === crmUserObject.id ? (
 				<>
 					<button
 						onClick={() => {
-							navigate(`/products/edit/${product.id}`);
+							navigate(`/leads/edit/${lead.id}`);
 						}}>
 						Edit
 					</button>
@@ -63,10 +62,10 @@ const ProductDetails = () => {
 				isOpen={renderDialogBox}
 				setRenderDialogBox={setRenderDialogBox}
 				setConfirmAction={setConfirmDelete}
-				action={'delete this product'}
+				action={'delete this lead'}
 			/>
 		</div>
 	);
 };
 
-export default ProductDetails;
+export default LeadDetails;

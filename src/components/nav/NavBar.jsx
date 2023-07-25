@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './NavBar.css';
 
 const NavBar = () => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
+
+	const navigate = useNavigate();
 
 	if (crmUserObject.roles.find((r) => r === 'Customer')) {
 		return (
@@ -44,9 +46,21 @@ const NavBar = () => {
 						<Link to='/profile' className='nav-link'>
 							Profile
 						</Link>
-						<Link to='/logout' className='nav-link logout'>
-							Logout
-						</Link>
+						{localStorage.getItem('crm_user') ? (
+							<div className='nav-logout'>
+								<Link
+									className='nav-link'
+									to=''
+									onClick={() => {
+										localStorage.removeItem('crm_user');
+										navigate('/', { replace: true });
+									}}>
+									Logout
+								</Link>
+							</div>
+						) : (
+							''
+						)}
 					</div>
 				</div>
 			</nav>

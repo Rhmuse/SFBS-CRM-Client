@@ -15,6 +15,7 @@ import ProductDetails from '../components/products/ProductDetails';
 import Dashboard from '../components/dashboard/Dashboard';
 import OrderDetails from '../components/orders/OrderDetails';
 import LeadDetails from '../components/leads/LeadDetails';
+import CustomerDetails from '../components/customers/CustomerDetails';
 
 const EmployeeViews = () => {
 	return (
@@ -25,7 +26,14 @@ const EmployeeViews = () => {
 				{/* Customers */}
 				<Route path='/customers' element={<List type='customers' />} />
 				<Route path='/customers/form' element={<CustomerForm />} />
-				<Route path='/customers/:customerId' element />
+				<Route
+					path='/customers/:customerId'
+					element={<CustomerDetails />}
+				/>
+				<Route
+					path='/customers/edit/:customerId'
+					element={<CustomerForm />}
+				/>
 
 				{/* Leads */}
 				<Route path='/leads' element={<List type='leads' />} />

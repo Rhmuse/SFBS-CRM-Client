@@ -29,7 +29,7 @@ export const Login = () => {
                                 firstName: user.firstName
                             }))
 
-                            navigate("/")
+                            navigate("/dashboard")
                         })
                 } else {
                     window.alert("Invalid login")

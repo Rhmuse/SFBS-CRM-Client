@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
 const CustomerForm = () => {
 	const [customerForm, setCustomerForm] = useState({
@@ -11,6 +12,40 @@ const CustomerForm = () => {
 		contactPhone: '',
 		userId: 0,
 	});
+
+	const params = useParams();
+
+	useEffect(() => {
+		if (params['*'].includes('edit')) {
+			fetch(`http://localhost:8088/customers/${params.customerId}`)
+				.then((res) => res.json())
+				.then((customer) => {
+					setCustomerForm({
+						companyName: customer.companyName,
+						address: customer.address,
+						companyPhone: customer.companyPhone,
+						contactFirstName: '',
+						contactLastName: '',
+						contactEmail: '',
+						contactPhone: '',
+						userId: customer.userId,
+						leadId: customer.leadId,
+					});
+
+					fetch(`http://localhost:8088/users/${customerForm.userId}`)
+						.then((res) => res.json())
+						.then((user) => {
+							setCustomerForm({
+								...customerForm,
+								contactFirstName: user.firstName,
+								contactLastName: user.lastName,
+								contactEmail: user.email,
+								contactPhone: user.phone,
+							});
+						});
+				});
+		}
+	}, []);
 
 	const handleSaveButton = (e) => {
 		e.preventDefault();
@@ -54,6 +89,52 @@ const CustomerForm = () => {
 					});
 				});
 			});
+	};
+
+	const handleEditButton = (e) => {
+		e.preventDefault();
+
+		const userObj = {
+			id: customerForm.userId,
+			firstName: customerForm.contactFirstName,
+			lastName: customerForm.contactLastName,
+			phone: customerForm.contactPhone,
+			email: customerForm.contactEmail,
+		};
+
+		const userOptions = {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(userObj),
+		};
+
+		fetch(
+			`http://localhost:8088/users/${customerForm.userId}`,
+			userOptions
+		);
+
+		const customerObj = {
+			companyName: customerForm.companyName,
+			address: customerForm.address,
+			compnayPhone: customerForm.companyPhone,
+			userId: customerForm.userId,
+			leadId: customerForm.leadId,
+		};
+
+		const customerOptions = {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(customerObj),
+		};
+
+		fetch(
+			`http://localhost:8088/customers/${params.customerId}`,
+			customerOptions
+		);
 	};
 
 	return (
@@ -178,11 +259,19 @@ const CustomerForm = () => {
 					/>
 				</div>
 			</fieldset>
-			<button
-				className='btn btn-primary'
-				onClick={(e) => handleSaveButton(e)}>
-				Save Customer
-			</button>
+			{params['*'].includes('edit') ? (
+				<button
+					className='btn btn-primary'
+					onClick={(e) => handleEditButton(e)}>
+					Save Changes
+				</button>
+			) : (
+				<button
+					className='btn btn-primary'
+					onClick={(e) => handleSaveButton(e)}>
+					Save New Customer
+				</button>
+			)}
 		</form>
 	);
 };

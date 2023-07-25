@@ -20,6 +20,7 @@ const ProductDetails = () => {
 			.then((product) => {
 				setProduct(product);
 			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -35,6 +36,7 @@ const ProductDetails = () => {
 				navigate('/products');
 			});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [confirmDelete]);
 
 	return (

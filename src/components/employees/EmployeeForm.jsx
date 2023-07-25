@@ -58,6 +58,7 @@ const EmployeeForm = () => {
 						});
 				});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleSaveButton = (e) => {

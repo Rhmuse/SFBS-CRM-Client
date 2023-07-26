@@ -1,6 +1,8 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import './NavBar.css';
 import Nav from 'react-bootstrap/Nav';
+import Col from 'react-bootstrap/esm/Col';
+import Row from 'react-bootstrap/esm/Row';
 
 const NavBar = () => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
@@ -9,73 +11,104 @@ const NavBar = () => {
 
 	if (crmUserObject.roles.find((r) => r === 'Customer')) {
 		return (
-			<nav className='flex flex-row nav-container'>
-				<img alt='logo' />
-				<div className='flex flex-row space-between'>
-					<Link to='/orders'>My Orders</Link>
-					<Link to='/logout'>Logout</Link>
-				</div>
-			</nav>
+			<Nav className='flex flex-row nav-container'>
+				<Row>
+					<Col>
+						<img alt='logo' />
+					</Col>
+
+					<Col>
+						{' '}
+						<Link to='/orders'>My Orders</Link>
+					</Col>
+					<Col></Col>
+					<Col></Col>
+					<Col>
+						<Link to='/logout'>Logout</Link>
+					</Col>
+				</Row>
+			</Nav>
 		);
 	} else if (crmUserObject.roles.find((r) => r === 'Employee')) {
 		return (
-			<Nav activeKey='/dashboard'>
-				<Nav.Item>
-					<Nav.Link as={NavLink} to={'/dashboard'}>
-						Dashboard
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link as={NavLink} to={'/customers'}>
-						Customers
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link as={NavLink} to={'/leads'}>
-						Leads
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link as={NavLink} to={'/orders'}>
-						Orders
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link as={NavLink} to={'/invoices'}>
-						Invoices
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link as={NavLink} to={'/products'}>
-						Products
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link as={NavLink} to={'/employees'}>
-						Employees
-					</Nav.Link>
-				</Nav.Item>
-				<Nav.Item>
-					<Nav.Link as={NavLink} to={'/profile'}>
-						My Profile
-					</Nav.Link>
-				</Nav.Item>
-				{localStorage.getItem('crm_user') ? (
-					<div className='nav-logout'>
-						<Nav.Link
-							as={Link}
-							to=''
-							onClick={() => {
-								localStorage.removeItem('crm_user');
-								navigate('/', { replace: true });
-							}}>
-							Logout
-						</Nav.Link>
-					</div>
-				) : (
-					''
-				)}
-			</Nav>
+			<Row>
+				<Nav
+					activeKey='/dashboard'
+					className='flex flex-row nav-container'>
+					<Col>
+						<Nav.Item>
+							<Nav.Link as={NavLink} to={'/dashboard'}>
+								Dashboard
+							</Nav.Link>
+						</Nav.Item>
+					</Col>
+					<Col>
+						<Nav.Item>
+							<Nav.Link as={NavLink} to={'/customers'}>
+								Customers
+							</Nav.Link>
+						</Nav.Item>
+					</Col>
+					<Col>
+						<Nav.Item>
+							<Nav.Link as={NavLink} to={'/leads'}>
+								Leads
+							</Nav.Link>
+						</Nav.Item>
+					</Col>
+					<Col>
+						<Nav.Item>
+							<Nav.Link as={NavLink} to={'/orders'}>
+								Orders
+							</Nav.Link>
+						</Nav.Item>
+					</Col>
+					<Col>
+						<Nav.Item>
+							<Nav.Link as={NavLink} to={'/invoices'}>
+								Invoices
+							</Nav.Link>
+						</Nav.Item>
+					</Col>
+					<Col>
+						<Nav.Item>
+							<Nav.Link as={NavLink} to={'/products'}>
+								Products
+							</Nav.Link>
+						</Nav.Item>
+					</Col>
+					<Col>
+						<Nav.Item>
+							<Nav.Link as={NavLink} to={'/employees'}>
+								Employees
+							</Nav.Link>
+						</Nav.Item>
+					</Col>
+					<Col></Col>
+					<Col>
+						<Nav.Item className='flex flex-row profile'>
+							<Nav.Item>
+								<Nav.Link as={NavLink} to={'/profile'}>
+									Profile
+								</Nav.Link>
+							</Nav.Item>
+							{localStorage.getItem('crm_user') ? (
+								<Nav.Link
+									as={Link}
+									to=''
+									onClick={() => {
+										localStorage.removeItem('crm_user');
+										navigate('/', { replace: true });
+									}}>
+									Logout
+								</Nav.Link>
+							) : (
+								''
+							)}
+						</Nav.Item>
+					</Col>
+				</Nav>
+			</Row>
 			// <nav className='flex flex-row nav-container space-between'>
 			// 	<img alt='logo' />
 			// 	<div className='flex flex-row space-between'>

@@ -16,10 +16,10 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
+import Stack from 'react-bootstrap/Stack';
 const List = ({ type }) => {
 	const [list, setList] = useState([]);
-	const [formButton, setFormButton] = useState();
+	const [newEntryButton, setNewEntryButton] = useState();
 
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 
@@ -38,7 +38,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(orders);
-						setFormButton(<NewEntryButton type={type} />);
+						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
 			case 'customers':
@@ -54,7 +54,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(customers);
-						setFormButton(<NewEntryButton type={type} />);
+						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
 			case 'employees':
@@ -76,10 +76,10 @@ const List = ({ type }) => {
 								});
 								setList(employees);
 								if (Utilities.isManager(crmUserObject))
-									setFormButton(
+									setNewEntryButton(
 										<NewEntryButton type={type} />
 									);
-								else setFormButton('');
+								else setNewEntryButton('');
 							});
 					});
 				break;
@@ -93,7 +93,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(leads);
-						setFormButton(<NewEntryButton type={type} />);
+						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
 			case 'products':
@@ -109,7 +109,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(products);
-						setFormButton(<NewEntryButton type={type} />);
+						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
 			case 'invoices':
@@ -125,7 +125,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(invoices);
-						setFormButton(<NewEntryButton type={type} />);
+						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
 			default:
@@ -145,11 +145,11 @@ const List = ({ type }) => {
 					/>
 				</Col>
 				<Col></Col>
-				<Col>{formButton}</Col>
+				<Col className='newEntry-button'>{newEntryButton}</Col>
 			</Row>
-			<Card>
+			<Container className=''>
 				<ListGroup>{list}</ListGroup>
-			</Card>
+			</Container>
 		</Container>
 	);
 };

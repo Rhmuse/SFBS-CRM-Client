@@ -1,20 +1,10 @@
-import { useNavigate } from 'react-router';
-
-import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
+import { Link } from 'react-router-dom';
 
 const Lead = ({ lead }) => {
-	const navigate = useNavigate();
-
 	return (
-		<ListGroup.Item>
+		<ListGroup.Item action as={Link} to={`/leads/${lead.id}`}>
 			<h3>{lead.companyName}</h3>
-			<Button
-				onClick={() => {
-					navigate(`/leads/${lead.id}`);
-				}}>
-				Details
-			</Button>
 		</ListGroup.Item>
 	);
 };

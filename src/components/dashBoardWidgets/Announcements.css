@@ -1,0 +1,19 @@
+.announcement-button-container {
+	justify-content: flex-end;
+	padding: 1rem;
+	max-height: 5rem;
+	flex-wrap: wrap;
+	align-content: center;
+}
+
+.announcement-input {
+	padding: 2rem;
+	height: 100%;
+	margin: 1rem;
+}
+
+.announcement-input-container {
+	align-content: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}

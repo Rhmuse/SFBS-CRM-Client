@@ -1,3 +1,5 @@
-.list-item {
+.newEntry-button {
 	margin: 1rem;
+	display: flex;
+	justify-content: flex-end;
 }

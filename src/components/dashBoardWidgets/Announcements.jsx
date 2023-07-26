@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import Utilities from '../../Utilities';
+import './Announcements.css';
 
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/esm/Button';
 import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/esm/Row';
+import Col from 'react-bootstrap/esm/Col';
 
 const Announcements = () => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
@@ -78,19 +81,28 @@ const Announcements = () => {
 				</ListGroup>
 				{Utilities.isManager(crmUserObject) ? (
 					<Container>
-						<Form.Control
-							type='text'
-							onChange={(e) =>
-								setNewAnnouncement({
-									...newAnnouncement,
-									content: e.target.value,
-								})
-							}
-							value={newAnnouncement.content}
-						/>
-						<Button onClick={() => handlePost()}>
-							Post Announcement
-						</Button>
+						<Row className=''>
+							<Col className='announcement-input-container flex'>
+								<Form.Control
+									as='textarea'
+									className='announcement-input'
+									type='text'
+									onChange={(e) =>
+										setNewAnnouncement({
+											...newAnnouncement,
+											content: e.target.value,
+										})
+									}
+									value={newAnnouncement.content}
+								/>
+							</Col>
+							<Col></Col>
+							<Col className='announcement-button-container flex'>
+								<Button onClick={() => handlePost()}>
+									Post Announcement
+								</Button>
+							</Col>
+						</Row>
 					</Container>
 				) : (
 					''

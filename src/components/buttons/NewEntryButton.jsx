@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router';
 import Utilities from '../../Utilities';
 
+import Button from 'react-bootstrap/Button';
+
 const NewEntryButton = ({ type }) => {
 	const navigate = useNavigate();
 
@@ -11,9 +13,9 @@ const NewEntryButton = ({ type }) => {
 	};
 
 	return (
-		<button onClick={(e) => handleClick(e)}>
-			New {Utilities.capitalize(type)}
-		</button>
+		<Button onClick={(e) => handleClick(e)}>
+			New {Utilities.capitalize(type).substring(0, type.length - 1)}
+		</Button>
 	);
 };
 

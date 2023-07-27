@@ -3,6 +3,9 @@ import LineItem from './LineItem';
 import Utilities from '../../Utilities';
 import { OrderFormContext } from './OrderFormContainer';
 
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 const Utility = new Utilities();
 const generator = Utility.iteratorGenerator();
 
@@ -49,14 +52,11 @@ const OrderForm = () => {
 		let childrenCopy = [...lineItemListChildren];
 
 		childrenCopy.push(
-			<fieldset key={`lineItemKey-${generator.next().value}`}>
-				{
-					<LineItem
-						products={products}
-						itemKey={`lineItem-${generator.next().value}`}
-					/>
-				}
-			</fieldset>
+			<LineItem
+				key={`lineItemKey-${generator.next().value}`}
+				products={products}
+				itemKey={`lineItem-${generator.next().value}`}
+			/>
 		);
 		setLineItemListChildren(childrenCopy);
 	};
@@ -135,47 +135,44 @@ const OrderForm = () => {
 	};
 
 	return (
-		<form>
-			<fieldset>
-				<div className='form-group'>
-					<label htmlFor='customer-input'>Customer: </label>
-					<select
-						id='customer-input'
-						value={orderForm.customerId}
-						onChange={(e) => {
-							setOrderForm({
-								...orderForm,
-								customerId: parseInt(e.target.value),
-							});
-						}}>
-						<option value={''}>Select a customer...</option>
-						{customers.map((c) => {
-							return (
-								<option key={`customer-${c.id}`} value={c.id}>
-									{c.companyName}
-								</option>
-							);
-						})}
-					</select>
-				</div>
-			</fieldset>
-			<button
+		<Form>
+			<Form.Label htmlFor='customer-input'>Customer: </Form.Label>
+			<Form.Select
+				id='customer-input'
+				value={orderForm.customerId}
+				onChange={(e) => {
+					setOrderForm({
+						...orderForm,
+						customerId: parseInt(e.target.value),
+					});
+				}}>
+				<option value={''}>Select a customer...</option>
+				{customers.map((c) => {
+					return (
+						<option key={`customer-${c.id}`} value={c.id}>
+							{c.companyName}
+						</option>
+					);
+				})}
+			</Form.Select>
+
+			<Button
 				onClick={(e) => {
 					addLineItem(e);
 				}}>
 				Add Line Item
-			</button>
+			</Button>
 			<div className='lineItemList' key={`lineItemList}`}>
 				{lineItemListChildren}
 			</div>
 			<div>Order Total: {orderTotal}</div>
-			<button
+			<Button
 				onClick={(e) => {
 					handleSubmit(e);
 				}}>
 				Submit Order
-			</button>
-		</form>
+			</Button>
+		</Form>
 	);
 };
 

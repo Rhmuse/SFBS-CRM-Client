@@ -4,6 +4,8 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router';
 import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
+import Button from 'react-bootstrap/esm/Button';
+import Container from 'react-bootstrap/esm/Container';
 
 const CustomerDetails = () => {
 	const [customer, setCustomer] = useState({});
@@ -43,22 +45,23 @@ const CustomerDetails = () => {
 	return (
 		<div>
 			<h3>{customer.companyName}</h3>
-			<p>{customer.description}</p>
+			<p>{customer.address}</p>
+			<p>{customer.companyPhone}</p>
 			{Utilities.isManager(crmUserObject) ? (
-				<>
-					<button
+				<Container className='edit-delete-container'>
+					<Button
 						onClick={() => {
 							navigate(`/customers/edit/${customer.id}`);
 						}}>
 						Edit
-					</button>
-					<button
+					</Button>
+					<Button
 						onClick={() => {
 							setRenderDialogBox(true);
 						}}>
 						Delete
-					</button>
-				</>
+					</Button>
+				</Container>
 			) : (
 				''
 			)}

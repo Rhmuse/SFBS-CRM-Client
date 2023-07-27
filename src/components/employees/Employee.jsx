@@ -1,24 +1,13 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import ListGroup from 'react-bootstrap/ListGroup';
+import { Link } from 'react-router-dom';
 
-const Employee = ({ employee, locations }) => {
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		const foundLocation = locations.find(
-			(l) => l.id === employee.locationId
-		);
-
-		employee.location = foundLocation;
-	}, []);
-
-	const handleClick = (e) => {
-		e.preventDefault();
-		navigate(`/employees/profile/${employee.id}`);
-	};
-
+const Employee = ({ employee }) => {
 	return (
-		<div className='flex-row flex'>
+		<ListGroup.Item
+			className='flex-row flex'
+			action
+			as={Link}
+			to={`/employees/profile/${employee.id}`}>
 			<div className='flex-column'>
 				<p>
 					{employee?.user?.firstName} {employee?.user?.lastName}
@@ -26,8 +15,7 @@ const Employee = ({ employee, locations }) => {
 				<p>Email: {employee?.user?.email}</p>
 				<p>Location: {employee?.location?.name}</p>
 			</div>
-			<button onClick={(e) => handleClick(e)}>Employee Details</button>
-		</div>
+		</ListGroup.Item>
 	);
 };
 

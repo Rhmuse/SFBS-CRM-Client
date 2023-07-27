@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
+import Button from 'react-bootstrap/esm/Button';
+import Container from 'react-bootstrap/Container';
 
 const LeadDetails = () => {
 	const [lead, setLead] = useState({});
@@ -20,6 +22,7 @@ const LeadDetails = () => {
 			.then((lead) => {
 				setLead(lead);
 			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -34,27 +37,35 @@ const LeadDetails = () => {
 				}
 			);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [confirmDelete]);
 
 	return (
-		<div>
-			<h3>#{lead.id}</h3>
+		<Container>
+			<h3>{lead.companyName}</h3>
+			<p>Company Phone Number: {lead.companyPhone}</p>
+			<p>
+				Contact: {lead.contactFirstName} {lead.contactLastName}
+			</p>
+			<p>Contact Phone Number: {lead.contactPhone}</p>
+			<p>Contact Email: {lead.contactEmail}</p>
+			<p>Address: {lead.address}</p>
 			{Utilities.isManager(crmUserObject) ||
 			lead.assignedEmployeeId === crmUserObject.id ? (
-				<>
-					<button
+				<Container className='edit-delete-container'>
+					<Button
 						onClick={() => {
 							navigate(`/leads/edit/${lead.id}`);
 						}}>
 						Edit
-					</button>
-					<button
+					</Button>
+					<Button
 						onClick={() => {
 							setRenderDialogBox(true);
 						}}>
 						Delete
-					</button>
-				</>
+					</Button>
+				</Container>
 			) : (
 				''
 			)}
@@ -64,7 +75,7 @@ const LeadDetails = () => {
 				setConfirmAction={setConfirmDelete}
 				action={'delete this lead'}
 			/>
-		</div>
+		</Container>
 	);
 };
 

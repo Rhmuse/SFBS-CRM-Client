@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
 const CustomerForm = () => {
 	const [customerForm, setCustomerForm] = useState({
 		companyName: '',
@@ -20,27 +23,19 @@ const CustomerForm = () => {
 			fetch(`http://localhost:8088/customers/${params.customerId}`)
 				.then((res) => res.json())
 				.then((customer) => {
-					setCustomerForm({
-						companyName: customer.companyName,
-						address: customer.address,
-						companyPhone: customer.companyPhone,
-						contactFirstName: '',
-						contactLastName: '',
-						contactEmail: '',
-						contactPhone: '',
-						userId: customer.userId,
-						leadId: customer.leadId,
-					});
-
-					fetch(`http://localhost:8088/users/${customerForm.userId}`)
+					fetch(`http://localhost:8088/users/${customer.userId}`)
 						.then((res) => res.json())
 						.then((user) => {
 							setCustomerForm({
-								...customerForm,
+								companyName: customer.companyName,
+								address: customer.address,
+								companyPhone: customer.companyPhone,
 								contactFirstName: user.firstName,
 								contactLastName: user.lastName,
 								contactEmail: user.email,
 								contactPhone: user.phone,
+								userId: customer.userId,
+								leadId: customer.leadId,
 							});
 						});
 				});
@@ -139,141 +134,120 @@ const CustomerForm = () => {
 	};
 
 	return (
-		<form>
-			<fieldset>
-				<div className='form-group'>
-					<label htmlFor='companyName-input'>Company Name: </label>
-					<input
-						type='text'
-						id='companyName-input'
-						value={customerForm.companyName}
-						onChange={(e) => {
-							setCustomerForm({
-								...customerForm,
-								companyName: e.target.value,
-							});
-						}}
-					/>
-				</div>
-			</fieldset>
-			<fieldset>
-				<div className='form-group'>
-					<label htmlFor='contactFirstName-input'>
-						Contact First Name:{' '}
-					</label>
-					<input
-						type='text'
-						id='contactFirstName-input'
-						value={customerForm.contactFirstName}
-						onChange={(e) => {
-							setCustomerForm({
-								...customerForm,
-								contactFirstName: e.target.value,
-							});
-						}}
-					/>
-				</div>
-			</fieldset>
-			<fieldset>
-				<div className='form-group'>
-					<label htmlFor='contactLastName-input'>
-						Contact Last Name:{' '}
-					</label>
-					<input
-						type='text'
-						id='contactLastName-input'
-						value={customerForm.contactLastName}
-						onChange={(e) => {
-							setCustomerForm({
-								...customerForm,
-								contactLastName: e.target.value,
-							});
-						}}
-					/>
-				</div>
-			</fieldset>
-			<fieldset>
-				<div className='form-group'>
-					<label htmlFor='contactEmail-input'>Email: </label>
-					<input
-						type='text'
-						id='contactEmail-input'
-						value={customerForm.contactEmail}
-						onChange={(e) => {
-							setCustomerForm({
-								...customerForm,
-								contactEmail: e.target.value,
-							});
-						}}
-					/>
-				</div>
-			</fieldset>
-			<fieldset>
-				<div className='form-group'>
-					<label htmlFor='contactPhone-input'>
-						Contact Phone Number:{' '}
-					</label>
-					<input
-						type='text'
-						id='contactPhone-input'
-						value={customerForm.contactPhone}
-						onChange={(e) => {
-							setCustomerForm({
-								...customerForm,
-								contactPhone: e.target.value,
-							});
-						}}
-					/>
-				</div>
-			</fieldset>
-			<fieldset>
-				<div className='form-group'>
-					<label htmlFor='address-input'>Address: </label>
-					<input
-						type='text'
-						id='address-input'
-						value={customerForm.address}
-						onChange={(e) => {
-							setCustomerForm({
-								...customerForm,
-								address: e.target.value,
-							});
-						}}
-					/>
-				</div>
-			</fieldset>
-			<fieldset>
-				<div className='form-group'>
-					<label htmlFor='companyPhone-input'>
-						Company Phone Number:
-					</label>
-					<input
-						type='text'
-						id='companyPhone-input'
-						value={customerForm.companyPhone}
-						onChange={(e) => {
-							setCustomerForm({
-								...customerForm,
-								companyPhone: e.target.value,
-							});
-						}}
-					/>
-				</div>
-			</fieldset>
+		<Form>
+			<Form.Label htmlFor='companyName-input'>Company Name: </Form.Label>
+			<Form.Control
+				type='text'
+				id='companyName-input'
+				value={customerForm.companyName}
+				onChange={(e) => {
+					setCustomerForm({
+						...customerForm,
+						companyName: e.target.value,
+					});
+				}}
+			/>
+
+			<Form.Label htmlFor='contactFirstName-input'>
+				Contact First Name:{' '}
+			</Form.Label>
+			<Form.Control
+				type='text'
+				id='contactFirstName-input'
+				value={customerForm.contactFirstName}
+				onChange={(e) => {
+					setCustomerForm({
+						...customerForm,
+						contactFirstName: e.target.value,
+					});
+				}}
+			/>
+
+			<Form.Label htmlFor='contactLastName-input'>
+				Contact Last Name:{' '}
+			</Form.Label>
+			<Form.Control
+				type='text'
+				id='contactLastName-input'
+				value={customerForm.contactLastName}
+				onChange={(e) => {
+					setCustomerForm({
+						...customerForm,
+						contactLastName: e.target.value,
+					});
+				}}
+			/>
+
+			<Form.Label htmlFor='contactEmail-input'>Email: </Form.Label>
+			<Form.Control
+				type='text'
+				id='contactEmail-input'
+				value={customerForm.contactEmail}
+				onChange={(e) => {
+					setCustomerForm({
+						...customerForm,
+						contactEmail: e.target.value,
+					});
+				}}
+			/>
+
+			<Form.Label htmlFor='contactPhone-input'>
+				Contact Phone Number:{' '}
+			</Form.Label>
+			<Form.Control
+				type='text'
+				id='contactPhone-input'
+				value={customerForm.contactPhone}
+				onChange={(e) => {
+					setCustomerForm({
+						...customerForm,
+						contactPhone: e.target.value,
+					});
+				}}
+			/>
+
+			<Form.Label htmlFor='address-input'>Address: </Form.Label>
+			<Form.Control
+				type='text'
+				id='address-input'
+				value={customerForm.address}
+				onChange={(e) => {
+					setCustomerForm({
+						...customerForm,
+						address: e.target.value,
+					});
+				}}
+			/>
+
+			<Form.Label htmlFor='companyPhone-input'>
+				Company Phone Number:
+			</Form.Label>
+			<Form.Control
+				type='text'
+				id='companyPhone-input'
+				value={customerForm.companyPhone}
+				onChange={(e) => {
+					setCustomerForm({
+						...customerForm,
+						companyPhone: e.target.value,
+					});
+				}}
+			/>
+
 			{params['*'].includes('edit') ? (
-				<button
+				<Button
 					className='btn btn-primary'
 					onClick={(e) => handleEditButton(e)}>
 					Save Changes
-				</button>
+				</Button>
 			) : (
-				<button
+				<Button
 					className='btn btn-primary'
 					onClick={(e) => handleSaveButton(e)}>
 					Save New Customer
-				</button>
+				</Button>
 			)}
-		</form>
+		</Form>
 	);
 };
 

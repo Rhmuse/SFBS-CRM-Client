@@ -1,0 +1,16 @@
+.line-item {
+	display: flex !important;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.col {
+	display: flex;
+	flex-direction: row;
+	text-align: end;
+}
+
+.line-total {
+	display: flex;
+	justify-content: end;
+}

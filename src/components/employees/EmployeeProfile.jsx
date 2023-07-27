@@ -5,6 +5,7 @@ import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/esm/ListGroup';
 
 const EmployeeProfile = () => {
 	const { employeeId } = useParams();
@@ -56,24 +57,38 @@ const EmployeeProfile = () => {
 
 	return (
 		<Container>
-			<div>
-				<img src='#' alt='Profile' />
-			</div>
-			<div>
-				<h3>
-					{employee?.user?.firstName} {employee?.user?.lastName}
-				</h3>
-				<p>Email: {employee?.user?.email}</p>
-				<p>Phone Number: {employee?.user?.phone}</p>
-				<p>Gender: {employee.gender}</p>
-				<p>Roles:</p>
-				{employeeRoles.map((role) => {
-					return <p key={`role--${role}`}>{role}</p>;
-				})}
+			<ListGroup>
+				<ListGroup.Item className='flex flex-row'>
+					<img src='#' alt='Profile' />
+					<h3>
+						{employee?.user?.firstName} {employee?.user?.lastName}
+					</h3>
+				</ListGroup.Item>
+				<ListGroup.Item>Email: {employee?.user?.email}</ListGroup.Item>
+				<ListGroup.Item>
+					Phone Number: {employee?.user?.phone}
+				</ListGroup.Item>
+				<ListGroup.Item>Gender: {employee.gender}</ListGroup.Item>
+				<ListGroup.Item>
+					Roles:
+					<ListGroup>
+						{employeeRoles.map((role) => {
+							return (
+								<ListGroup.Item key={`role--${role}`}>
+									{role}
+								</ListGroup.Item>
+							);
+						})}
+					</ListGroup>
+				</ListGroup.Item>
 				{Utilities.isManager(crmUserObject) ? (
 					<>
-						<p>Pay Rate: ${employee.payRate}</p>
-						<p>Hire Date: {employee.hireDate}</p>
+						<ListGroup.Item>
+							Pay Rate: ${employee.payRate}
+						</ListGroup.Item>
+						<ListGroup.Item>
+							Hire Date: {employee.hireDate}
+						</ListGroup.Item>
 						<Container className='edit-delete-container'>
 							<Button
 								onClick={() => {
@@ -97,7 +112,7 @@ const EmployeeProfile = () => {
 					setConfirmAction={setConfirmDelete}
 					action={'delete this employee'}
 				/>
-			</div>
+			</ListGroup>
 		</Container>
 	);
 };

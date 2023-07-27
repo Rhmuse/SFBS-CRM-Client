@@ -1,3 +1,5 @@
+import Button from 'react-bootstrap/esm/Button';
+import Modal from 'react-bootstrap/esm/Modal';
 import './AreYouSureDialogBox.css';
 
 const AreYouSureDialog = ({
@@ -8,29 +10,38 @@ const AreYouSureDialog = ({
 }) => {
 	if (isOpen) {
 		return (
-			<dialog open autoFocus className='confirm-dialog'>
-				Are you sure you want to {action}? This cannot be undone.
-				<button
-					onClick={() => {
-						setRenderDialogBox(false);
-						setConfirmAction(true);
-					}}>
-					Yes
-				</button>
-				<button
-					onClick={() => {
-						setRenderDialogBox(false);
-						setConfirmAction(false);
-					}}>
-					No
-				</button>
-			</dialog>
+			<Modal
+				show={isOpen}
+				onHide={() => {
+					setRenderDialogBox(false);
+				}}>
+				<Modal.Header closeButton>
+					<h4>Are you sure you want to {action}?</h4>
+				</Modal.Header>
+				<Modal.Body>
+					<p>This cannot be undone.</p>
+					<Button
+						onClick={() => {
+							setRenderDialogBox(false);
+							setConfirmAction(true);
+						}}>
+						Yes
+					</Button>
+					<Button
+						onClick={() => {
+							setRenderDialogBox(false);
+							setConfirmAction(false);
+						}}>
+						No
+					</Button>
+				</Modal.Body>
+			</Modal>
 		);
 	} else {
 		return (
 			<dialog className='confirm-dialog'>
 				u sure?
-				<button onClick={() => setRenderDialogBox(false)}>close</button>
+				<Button onClick={() => setRenderDialogBox(false)}>close</Button>
 			</dialog>
 		);
 	}

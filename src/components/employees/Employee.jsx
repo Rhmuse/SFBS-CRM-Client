@@ -1,4 +1,5 @@
 import ListGroup from 'react-bootstrap/ListGroup';
+import Container from 'react-bootstrap/esm/Container';
 import { Link } from 'react-router-dom';
 
 const Employee = ({ employee }) => {
@@ -8,13 +9,13 @@ const Employee = ({ employee }) => {
 			action
 			as={Link}
 			to={`/employees/profile/${employee.id}`}>
-			<div className='flex-column'>
-				<p>
+			<Container className='flex-column'>
+				<h4>
 					{employee?.user?.firstName} {employee?.user?.lastName}
-				</p>
+				</h4>
 				<p>Email: {employee?.user?.email}</p>
 				<p>Location: {employee?.location?.name}</p>
-			</div>
+			</Container>
 		</ListGroup.Item>
 	);
 };

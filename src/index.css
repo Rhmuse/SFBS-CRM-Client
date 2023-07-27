@@ -22,3 +22,10 @@
 .edit-delete-container > button {
 	margin: 1rem;
 }
+
+.new-button-container {
+	display: flex;
+	justify-content: end;
+	flex-wrap: wrap;
+	padding: 1rem;
+}

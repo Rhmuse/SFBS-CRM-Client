@@ -47,7 +47,13 @@ const Announcements = () => {
 			body: JSON.stringify(newAnnouncement),
 		};
 
-		fetch('http://localhost:8088/announcements', options);
+		fetch('http://localhost:8088/announcements', options).then(() => {
+			fetch('http://localhost:8088/announcements')
+				.then((res) => res.json())
+				.then((a) => {
+					setAnnouncements(a);
+				});
+		});
 	};
 
 	return (
@@ -60,19 +66,9 @@ const Announcements = () => {
 							<ListGroup.Item key={`announcement--${a.id}`}>
 								<h6>{a.content}</h6>
 								<p>
-									{new Date(
-										Date(a.announcementDate)
-									).toLocaleDateString('en-US', {
-										weekday: 'long',
-										year: 'numeric',
-										month: 'long',
-										day: 'numeric',
-										time: 'numeric',
-									})}{' '}
-									at{' '}
-									{new Date(
-										Date(a.announcementDate)
-									).toLocaleTimeString('en-US')}
+									{Utilities.dateFormatter(
+										a.announcementDate
+									)}
 								</p>
 								<p>Posted by: {a.posterName}</p>
 							</ListGroup.Item>

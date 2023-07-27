@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/esm/Container';
 
 const genderArr = ['Female', 'Male', 'Nonbinary', 'N/A'];
 
@@ -231,6 +232,71 @@ const EmployeeForm = () => {
 					});
 			});
 	};
+
+	const handleRoleCheckBox = (role) => {
+		if (employeeForm.roles.includes(role.id)) {
+			return (
+				<Form.Check
+					key={`checkbox--${role.id}`}
+					id={`role-${role.id}`}
+					value={role.id}
+					type='checkbox'
+					name='roles'
+					label={role.name}
+					className='role-input'
+					checked
+					onChange={(e) => {
+						if (e.target.checked) {
+							setEmployeeForm({
+								...employeeForm,
+								roles: [
+									...employeeForm.roles,
+									parseInt(e.target.value),
+								],
+							});
+						} else {
+							setEmployeeForm({
+								...employeeForm,
+								roles: employeeForm.roles.filter(
+									(r) => r !== parseInt(e.target.value)
+								),
+							});
+						}
+					}}
+				/>
+			);
+		} else {
+			return (
+				<Form.Check
+					id={`role-${role.id}`}
+					key={`checkbox--${role.id}`}
+					value={role.id}
+					type='checkbox'
+					name='roles'
+					label={role.name}
+					className='role-input'
+					onChange={(e) => {
+						if (e.target.checked) {
+							setEmployeeForm({
+								...employeeForm,
+								roles: [
+									...employeeForm.roles,
+									parseInt(e.target.value),
+								],
+							});
+						} else {
+							setEmployeeForm({
+								...employeeForm,
+								roles: employeeForm.roles.filter(
+									(r) => r !== parseInt(e.target.value)
+								),
+							});
+						}
+					}}
+				/>
+			);
+		}
+	};
 	return (
 		<Form>
 			<Form.Label htmlFor='firstName-input'>First Name: </Form.Label>
@@ -352,57 +418,27 @@ const EmployeeForm = () => {
 			</Form.Select>
 
 			<legend>Roles: </legend>
-			<div className='role-input-container'>
+			<Container className='role-input-container'>
 				{/* TODO: Remove Customer as an option and clear checkboxs on send and populate checkboxes on redirect */}
 				{roles.map((role) => {
-					return (
-						<div key={`role-${role.id}`}>
-							<Form.Check
-								id={`role-${role.id}`}
-								value={role.id}
-								type='checkbox'
-								name='roles'
-								label={role.name}
-								className='role-input'
-								onChange={(e) => {
-									if (e.target.checked) {
-										setEmployeeForm({
-											...employeeForm,
-											roles: [
-												...employeeForm.roles,
-												parseInt(e.target.value),
-											],
-										});
-									} else {
-										setEmployeeForm({
-											...employeeForm,
-											roles: employeeForm.roles.filter(
-												(r) =>
-													r !==
-													parseInt(e.target.value)
-											),
-										});
-									}
-								}}
-							/>
-						</div>
-					);
+					return handleRoleCheckBox(role);
 				})}
-			</div>
-
-			{params['*'].includes('edit') ? (
-				<Button
-					className='btn btn-primary'
-					onClick={(e) => handleEditButton(e)}>
-					Save Changes
-				</Button>
-			) : (
-				<Button
-					className='btn btn-primary'
-					onClick={(e) => handleSaveButton(e)}>
-					Save New Employee
-				</Button>
-			)}
+			</Container>
+			<Container className='new-button-container'>
+				{params['*'].includes('edit') ? (
+					<Button
+						className='btn btn-primary'
+						onClick={(e) => handleEditButton(e)}>
+						Save Changes
+					</Button>
+				) : (
+					<Button
+						className='btn btn-primary'
+						onClick={(e) => handleSaveButton(e)}>
+						Save New Employee
+					</Button>
+				)}
+			</Container>
 		</Form>
 	);
 };

@@ -5,10 +5,14 @@ import { useNavigate } from 'react-router';
 import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 import Button from 'react-bootstrap/esm/Button';
-import Container from 'react-bootstrap/esm/Container';
+import ListGroup from 'react-bootstrap/esm/ListGroup';
+import Order from '../orders/Order';
 
 const CustomerDetails = () => {
 	const [customer, setCustomer] = useState({});
+	const [orders, setOrders] = useState([]);
+	const [user, setUser] = useState({});
+	const [lead, setLead] = useState({});
 	const [renderDialogBox, setRenderDialogBox] = useState(false);
 	const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -18,12 +22,20 @@ const CustomerDetails = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetch(
-			`http://localhost:8088/customers/${customerId}?_embed=user&_embed=lead`
-		)
+		fetch(`http://localhost:8088/customers/${customerId}`)
 			.then((res) => res.json())
 			.then((customer) => {
 				setCustomer(customer);
+				fetch(`http://localhost:8088/users/${customer.userId}`)
+					.then((res) => res.json())
+					.then((u) => {
+						setUser(u);
+					});
+			});
+		fetch(`http://localhost:8088/orders?customerId=${customerId}`)
+			.then((res) => res.json())
+			.then((o) => {
+				setOrders(o);
 			});
 	}, []);
 
@@ -43,12 +55,26 @@ const CustomerDetails = () => {
 	}, [confirmDelete]);
 
 	return (
-		<div>
-			<h3>{customer.companyName}</h3>
-			<p>{customer.address}</p>
-			<p>{customer.companyPhone}</p>
+		<ListGroup>
+			<ListGroup.Item>
+				<h3>{customer.companyName}</h3>
+				<p>{customer.address}</p>
+				<p>{customer.companyPhone}</p>
+			</ListGroup.Item>
+			<ListGroup.Item>
+				<ListGroup>
+					{orders.map((order) => {
+						return (
+							<Order
+								key={`orderItem--${order.id}`}
+								order={order}
+							/>
+						);
+					})}
+				</ListGroup>
+			</ListGroup.Item>
 			{Utilities.isManager(crmUserObject) ? (
-				<Container className='edit-delete-container'>
+				<ListGroup.Item className='edit-delete-container'>
 					<Button
 						onClick={() => {
 							navigate(`/customers/edit/${customer.id}`);
@@ -61,7 +87,7 @@ const CustomerDetails = () => {
 						}}>
 						Delete
 					</Button>
-				</Container>
+				</ListGroup.Item>
 			) : (
 				''
 			)}
@@ -71,7 +97,7 @@ const CustomerDetails = () => {
 				setConfirmAction={setConfirmDelete}
 				action={'delete this customer'}
 			/>
-		</div>
+		</ListGroup>
 	);
 };
 

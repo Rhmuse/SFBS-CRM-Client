@@ -1,0 +1,13 @@
+#customer-input {
+	width: 30%;
+}
+
+.customer-select-container {
+	display: flex;
+	justify-content: space-between;
+	margin: 1rem;
+}
+
+.order-total-container {
+	text-align: end;
+}

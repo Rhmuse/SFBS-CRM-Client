@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/esm/Container';
 
 const LeadForm = () => {
 	const [leadForm, setLeadForm] = useState({
@@ -184,20 +185,21 @@ const LeadForm = () => {
 					});
 				}}
 			/>
-
-			{params['*'].includes('edit') ? (
-				<Button
-					className='btn btn-primary'
-					onClick={(e) => handleEditButton(e)}>
-					Save Changes
-				</Button>
-			) : (
-				<Button
-					className='btn btn-primary'
-					onClick={(e) => handleSaveButton(e)}>
-					Save New Lead
-				</Button>
-			)}
+			<Container className='new-button-container'>
+				{params['*'].includes('edit') ? (
+					<Button
+						className='btn btn-primary'
+						onClick={(e) => handleEditButton(e)}>
+						Save Changes
+					</Button>
+				) : (
+					<Button
+						className='btn btn-primary'
+						onClick={(e) => handleSaveButton(e)}>
+						Save New Lead
+					</Button>
+				)}
+			</Container>
 		</Form>
 	);
 };

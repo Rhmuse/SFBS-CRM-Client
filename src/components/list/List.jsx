@@ -128,7 +128,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(invoices);
-						setNewEntryButton(<NewEntryButton type={type} />);
+						setNewEntryButton(<></>);
 					});
 				break;
 			default:

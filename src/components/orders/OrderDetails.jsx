@@ -21,6 +21,7 @@ const OrderDetails = () => {
 
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 	const navigate = useNavigate();
+	const formatter = Utilities.moneyFormatter;
 
 	useEffect(() => {
 		fetch(`http://localhost:8088/orders/${orderId}`)
@@ -87,8 +88,14 @@ const OrderDetails = () => {
 								<Col>{item?.product?.name}</Col>
 								<Col></Col>
 								<Col>Quantity: {item.quantity}</Col>
-								<Col>UnitPrice: {item?.product?.unitPrice}</Col>
-								<Col>Line Total: {item.lineTotal}</Col>
+								<Col>
+									UnitPrice:{' '}
+									{formatter.format(item?.product?.unitPrice)}
+								</Col>
+								<Col>
+									Line Total:{' '}
+									{formatter.format(item.lineTotal)}
+								</Col>
 							</Row>
 						</ListGroup.Item>
 					);
@@ -99,7 +106,9 @@ const OrderDetails = () => {
 						<Col></Col>
 						<Col></Col>
 						<Col></Col>
-						<Col>Order Total: {order.totalAmount}</Col>
+						<Col>
+							Order Total: {formatter.format(order.totalAmount)}
+						</Col>
 					</Row>
 				</ListGroup.Item>
 			</ListGroup>

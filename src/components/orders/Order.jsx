@@ -1,5 +1,6 @@
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Link } from 'react-router-dom';
+import Utilities from '../../Utilities';
 
 const Order = ({ order }) => {
 	return (
@@ -9,7 +10,8 @@ const Order = ({ order }) => {
 			as={Link}
 			to={`/orders/${order.id}`}>
 			<h5>{order?.customer?.companyName}</h5>
-			<p>Date Placed: {order.orderDate}</p>
+			<p>Order #{order.id}</p>
+			<p>Date Placed: {Utilities.dateFormatter(order.orderDate)}</p>
 			<p>Total: ${order.totalAmount}</p>
 		</ListGroup.Item>
 	);

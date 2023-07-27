@@ -20,7 +20,7 @@ const Invoice = ({ invoice }) => {
 		return formatedLineItem;
 	};
 
-	const formatter = Utilities.formatter;
+	const formatter = Utilities.moneyFormatter;
 
 	useEffect(() => {
 		fetch(`http://localhost:8088/orders/${orderId}`)
@@ -70,13 +70,12 @@ const Invoice = ({ invoice }) => {
 		invoice.text('Phone: 555-123-4444', 20, 65);
 
 		// Add Logo
-		const logo = new Image();
-		logo.src =
-			'https://dundermifflinincblog.files.wordpress.com/2017/03/black-dunder-mifflin.png';
-		logo.onload = () => {
-			invoice.addImage(logo, 'png', 150, 20);
-			invoice.save(invoice.pdf);
-		};
+		// const logo = new Image();
+		// logo.src =
+		// 	'https://dundermifflinincblog.files.wordpress.com/2017/03/black-dunder-mifflin.png';
+		// logo.src = './imgs/black-dunder-mifflin.png';
+
+		// invoice.addImage(logo, 'png', 150, 20, 600, 600);
 
 		// Add Invoice Number and Date
 		invoice.text(`INVOICE #${order.id}`, 155, 60);
@@ -121,6 +120,8 @@ const Invoice = ({ invoice }) => {
 
 		const tableContents = [...lineItems, ...tableTotals];
 		invoice.autoTable(lineItemTableHeader, tableContents, tableOptions);
+
+		// invoice.save('invoice.pdf');
 	};
 
 	if (lineItems.length > 0) {

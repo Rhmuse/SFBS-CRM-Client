@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/esm/Container';
 
 const CustomerForm = () => {
 	const [customerForm, setCustomerForm] = useState({
@@ -17,6 +18,7 @@ const CustomerForm = () => {
 	});
 
 	const params = useParams();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (params['*'].includes('edit')) {
@@ -85,6 +87,7 @@ const CustomerForm = () => {
 					});
 				});
 			});
+		navigate('/customers');
 	};
 
 	const handleEditButton = (e) => {
@@ -114,7 +117,7 @@ const CustomerForm = () => {
 		const customerObj = {
 			companyName: customerForm.companyName,
 			address: customerForm.address,
-			compnayPhone: customerForm.companyPhone,
+			companyPhone: customerForm.companyPhone,
 			userId: customerForm.userId,
 			leadId: customerForm.leadId,
 		};
@@ -131,6 +134,7 @@ const CustomerForm = () => {
 			`http://localhost:8088/customers/${params.customerId}`,
 			customerOptions
 		);
+		navigate('/customers');
 	};
 
 	return (
@@ -233,20 +237,21 @@ const CustomerForm = () => {
 					});
 				}}
 			/>
-
-			{params['*'].includes('edit') ? (
-				<Button
-					className='btn btn-primary'
-					onClick={(e) => handleEditButton(e)}>
-					Save Changes
-				</Button>
-			) : (
-				<Button
-					className='btn btn-primary'
-					onClick={(e) => handleSaveButton(e)}>
-					Save New Customer
-				</Button>
-			)}
+			<Container className='new-button-container'>
+				{params['*'].includes('edit') ? (
+					<Button
+						className='btn btn-primary'
+						onClick={(e) => handleEditButton(e)}>
+						Save Changes
+					</Button>
+				) : (
+					<Button
+						className='btn btn-primary'
+						onClick={(e) => handleSaveButton(e)}>
+						Save New Customer
+					</Button>
+				)}
+			</Container>
 		</Form>
 	);
 };

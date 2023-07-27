@@ -3,6 +3,9 @@ import { useNavigate, useParams } from 'react-router';
 import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+
 const EmployeeProfile = () => {
 	const { employeeId } = useParams();
 	const [employee, setEmployee] = useState({});
@@ -32,6 +35,7 @@ const EmployeeProfile = () => {
 						setEmployeeRoles(roles);
 					});
 			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
@@ -47,10 +51,11 @@ const EmployeeProfile = () => {
 				navigate('/employees');
 			});
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [confirmDelete]);
 
 	return (
-		<div className='flex flex-column'>
+		<Container>
 			<div>
 				<img src='#' alt='Profile' />
 			</div>
@@ -67,19 +72,21 @@ const EmployeeProfile = () => {
 				})}
 				{Utilities.isManager(crmUserObject) ? (
 					<>
-						<p>Pay Rate: {employee.payRate}</p>
+						<p>Pay Rate: ${employee.payRate}</p>
 						<p>Hire Date: {employee.hireDate}</p>
-						<button
-							onClick={() => {
-								navigate(
-									`/employees/edit/${employee?.user?.id}/${employee.payRate}/${employee.gender}/${employee.hireDate}/${employee.locationId}/${employee.id}`
-								);
-							}}>
-							Edit
-						</button>
-						<button onClick={() => setRenderDialogBox(true)}>
-							Delete
-						</button>
+						<Container className='edit-delete-container'>
+							<Button
+								onClick={() => {
+									navigate(
+										`/employees/edit/${employee?.user?.id}/${employee.payRate}/${employee.gender}/${employee.hireDate}/${employee.locationId}/${employee.id}`
+									);
+								}}>
+								Edit
+							</Button>
+							<Button onClick={() => setRenderDialogBox(true)}>
+								Delete
+							</Button>
+						</Container>
 					</>
 				) : (
 					''
@@ -91,7 +98,7 @@ const EmployeeProfile = () => {
 					action={'delete this employee'}
 				/>
 			</div>
-		</div>
+		</Container>
 	);
 };
 

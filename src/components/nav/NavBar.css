@@ -1,7 +1,7 @@
 .nav-container {
-	width: 98%;
+	margin-bottom: 1rem !important ;
 }
 
-.profile {
-	right: 0px;
+.nav-item {
+	text-align: center;
 }

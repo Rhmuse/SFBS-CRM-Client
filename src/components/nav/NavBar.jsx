@@ -11,8 +11,8 @@ const NavBar = () => {
 
 	if (crmUserObject.roles.find((r) => r === 'Customer')) {
 		return (
-			<Nav className='flex flex-row nav-container'>
-				<Row>
+			<Nav>
+				<Row className='nav-container'>
 					<Col>
 						<img alt='logo' />
 					</Col>
@@ -37,49 +37,70 @@ const NavBar = () => {
 					className='flex flex-row nav-container'>
 					<Col>
 						<Nav.Item>
-							<Nav.Link as={NavLink} to={'/dashboard'}>
+							<Nav.Link
+								as={NavLink}
+								to={'/dashboard'}
+								className='nav-item'>
 								Dashboard
 							</Nav.Link>
 						</Nav.Item>
 					</Col>
 					<Col>
 						<Nav.Item>
-							<Nav.Link as={NavLink} to={'/customers'}>
+							<Nav.Link
+								as={NavLink}
+								to={'/customers'}
+								className='nav-item'>
 								Customers
 							</Nav.Link>
 						</Nav.Item>
 					</Col>
 					<Col>
 						<Nav.Item>
-							<Nav.Link as={NavLink} to={'/leads'}>
+							<Nav.Link
+								as={NavLink}
+								to={'/leads'}
+								className='nav-item'>
 								Leads
 							</Nav.Link>
 						</Nav.Item>
 					</Col>
 					<Col>
 						<Nav.Item>
-							<Nav.Link as={NavLink} to={'/orders'}>
+							<Nav.Link
+								as={NavLink}
+								to={'/orders'}
+								className='nav-item'>
 								Orders
 							</Nav.Link>
 						</Nav.Item>
 					</Col>
 					<Col>
 						<Nav.Item>
-							<Nav.Link as={NavLink} to={'/invoices'}>
+							<Nav.Link
+								as={NavLink}
+								to={'/invoices'}
+								className='nav-item'>
 								Invoices
 							</Nav.Link>
 						</Nav.Item>
 					</Col>
 					<Col>
 						<Nav.Item>
-							<Nav.Link as={NavLink} to={'/products'}>
+							<Nav.Link
+								as={NavLink}
+								to={'/products'}
+								className='nav-item'>
 								Products
 							</Nav.Link>
 						</Nav.Item>
 					</Col>
 					<Col>
 						<Nav.Item>
-							<Nav.Link as={NavLink} to={'/employees'}>
+							<Nav.Link
+								as={NavLink}
+								to={'/employees'}
+								className='nav-item'>
 								Employees
 							</Nav.Link>
 						</Nav.Item>
@@ -88,12 +109,16 @@ const NavBar = () => {
 					<Col>
 						<Nav.Item className='flex flex-row profile'>
 							<Nav.Item>
-								<Nav.Link as={NavLink} to={'/profile'}>
+								<Nav.Link
+									as={NavLink}
+									to={'/profile'}
+									className='nav-item'>
 									Profile
 								</Nav.Link>
 							</Nav.Item>
 							{localStorage.getItem('crm_user') ? (
 								<Nav.Link
+									className='nav-item'
 									as={Link}
 									to=''
 									onClick={() => {

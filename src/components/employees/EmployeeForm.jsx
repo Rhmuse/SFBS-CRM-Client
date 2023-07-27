@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './EmployeeForm.css';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -23,6 +23,7 @@ const EmployeeForm = () => {
 	const [roles, setRoles] = useState([]);
 
 	const params = useParams();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetch('http://localhost:8088/locations')
@@ -132,6 +133,7 @@ const EmployeeForm = () => {
 					roles: [],
 					locationId: 0,
 				});
+				navigate('/employees');
 			});
 	};
 

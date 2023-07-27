@@ -11,12 +11,11 @@ import Utilities from '../../Utilities';
 
 //BootStrap
 import ListGroup from 'react-bootstrap/ListGroup';
-import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Stack from 'react-bootstrap/Stack';
+
 const List = ({ type }) => {
 	const [list, setList] = useState([]);
 	const [newEntryButton, setNewEntryButton] = useState();
@@ -66,11 +65,15 @@ const List = ({ type }) => {
 							.then((res) => res.json())
 							.then((e) => {
 								const employees = e.map((employee) => {
+									const foundLocation = locations.find(
+										(l) => l.id === employee.locationId
+									);
+
+									employee.location = foundLocation;
 									return (
 										<Employee
 											key={`employee--${employee.id}`}
 											employee={employee}
-											locations={locations}
 										/>
 									);
 								});
@@ -136,16 +139,18 @@ const List = ({ type }) => {
 
 	return (
 		<Container key='list' fluid>
-			<Row>
-				<Col>
+			<Row className='search-row'>
+				<Col className='search-col'>
 					<Form.Control
 						type='text'
 						id='searchBar'
 						placeholder='Search'
 					/>
 				</Col>
-				<Col></Col>
-				<Col className='newEntry-button'>{newEntryButton}</Col>
+				<Col className='search-col'></Col>
+				<Col className='newEntry-button search-col'>
+					{newEntryButton}
+				</Col>
 			</Row>
 			<Container className=''>
 				<ListGroup>{list}</ListGroup>

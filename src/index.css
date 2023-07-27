@@ -14,8 +14,11 @@
 	justify-content: space-between;
 }
 
-.btn {
+.edit-delete-container {
+	justify-content: flex-end;
+	display: flex;
 }
 
-.btn-primary {
+.edit-delete-container > button {
+	margin: 1rem;
 }

@@ -12,6 +12,11 @@ class Utilities {
         }
     }
 
+    static formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    })
+
     static isManager(userObj) {
         if (userObj.roles.find(role => role === "Manager")) return true
         else return false

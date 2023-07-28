@@ -8,6 +8,8 @@ import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
 import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
+import { createInvoice as downloadPdf } from '../invoices/createInvoice';
+import Comments from '../comments/Comments';
 
 const OrderDetails = () => {
 	const [order, setOrder] = useState({});
@@ -116,10 +118,23 @@ const OrderDetails = () => {
 				<Container className='edit-delete-container'>
 					<Button
 						onClick={() => {
+							downloadPdf(order.id);
+						}}>
+						Download Invoice
+					</Button>
+					<Button
+						onClick={() => {
 							setRenderDialogBox(true);
 						}}>
 						Delete
 					</Button>
+				</Container>
+			) : (
+				''
+			)}
+			{order.id ? (
+				<Container>
+					<Comments id={order.id} table={'orders'} />
 				</Container>
 			) : (
 				''

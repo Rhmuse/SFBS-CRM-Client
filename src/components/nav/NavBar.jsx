@@ -111,7 +111,7 @@ const NavBar = () => {
 							<Nav.Item>
 								<Nav.Link
 									as={NavLink}
-									to={'/profile'}
+									to={`/profile/${crmUserObject.id}`}
 									className='nav-item'>
 									Profile
 								</Nav.Link>

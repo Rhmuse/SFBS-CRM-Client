@@ -4,6 +4,7 @@ import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 import Button from 'react-bootstrap/esm/Button';
 import Container from 'react-bootstrap/Container';
+import Comments from '../comments/Comments';
 
 const LeadDetails = () => {
 	const [lead, setLead] = useState({});
@@ -52,20 +53,29 @@ const LeadDetails = () => {
 			<p>Address: {lead.address}</p>
 			{Utilities.isManager(crmUserObject) ||
 			lead.assignedEmployeeId === crmUserObject.id ? (
-				<Container className='edit-delete-container'>
-					<Button
-						onClick={() => {
-							navigate(`/leads/edit/${lead.id}`);
-						}}>
-						Edit
-					</Button>
-					<Button
-						onClick={() => {
-							setRenderDialogBox(true);
-						}}>
-						Delete
-					</Button>
-				</Container>
+				<>
+					<Container className='edit-delete-container'>
+						<Button
+							onClick={() => {
+								navigate(`/leads/edit/${lead.id}`);
+							}}>
+							Edit
+						</Button>
+						<Button
+							onClick={() => {
+								setRenderDialogBox(true);
+							}}>
+							Delete
+						</Button>
+					</Container>
+					{lead.id ? (
+						<Container>
+							<Comments id={lead.id} table={'leads'} />
+						</Container>
+					) : (
+						''
+					)}
+				</>
 			) : (
 				''
 			)}

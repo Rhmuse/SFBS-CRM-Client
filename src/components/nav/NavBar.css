@@ -5,3 +5,7 @@
 .nav-item {
 	text-align: center;
 }
+
+.col {
+	justify-content: center;
+}

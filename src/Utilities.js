@@ -21,16 +21,10 @@ class Utilities {
         return `${new Date(
             Date(date.announcementDate)
         ).toLocaleDateString('en-US', {
-            weekday: 'long',
             year: 'numeric',
             month: 'long',
-            day: 'numeric',
-            time: 'numeric',
-        })}
-     at 
-    ${new Date(
-            Date(date.announcementDate)
-        ).toLocaleTimeString('en-US')}`
+            day: 'numeric'
+        })}`
     }
 
 

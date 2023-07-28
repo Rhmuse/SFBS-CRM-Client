@@ -47,7 +47,7 @@ const EmployeeViews = () => {
 				<Route path='/orders/:orderId' element={<OrderDetails />} />
 
 				{/* Invoices */}
-				<Route path='/invoices' element={<List type='invoices' />} />
+				<Route path='/invoices' element={<></>} />
 
 				{/* Products */}
 				<Route path='/products' element={<List type='products' />} />
@@ -73,7 +73,10 @@ const EmployeeViews = () => {
 					element={<EmployeeProfile />}
 				/>
 
-				<Route path='/profile' element={<></>} />
+				<Route
+					path='/profile/:employeeId'
+					element={<EmployeeProfile />}
+				/>
 				<Route path='/logout' element={<></>} />
 			</Route>
 		</Routes>

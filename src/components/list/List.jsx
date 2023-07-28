@@ -4,7 +4,6 @@ import Customer from '../customers/Customer';
 import Lead from '../leads/Lead';
 import Employee from '../employees/Employee';
 import Product from '../products/Product';
-import Invoice from '../invoices/Invoice';
 import NewEntryButton from '../buttons/NewEntryButton';
 import './List.css';
 import Utilities from '../../Utilities';
@@ -120,12 +119,7 @@ const List = ({ type }) => {
 					.then((res) => res.json())
 					.then((i) => {
 						const invoices = i.map((invoice) => {
-							return (
-								<Invoice
-									key={`invoice--${invoice.id}`}
-									invoice={invoice}
-								/>
-							);
+							return <></>;
 						});
 						setList(invoices);
 						setNewEntryButton(<></>);

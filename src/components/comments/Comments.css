@@ -1,0 +1,12 @@
+.save-button-container {
+	justify-content: flex-end;
+	display: flex;
+}
+
+.save-button-container > button {
+	margin: 1rem;
+}
+
+.commenter {
+	text-align: end;
+}

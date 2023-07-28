@@ -7,6 +7,8 @@ import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 import Button from 'react-bootstrap/esm/Button';
 import ListGroup from 'react-bootstrap/esm/ListGroup';
 import Order from '../orders/Order';
+import Comments from '../comments/Comments';
+import Container from 'react-bootstrap/esm/Container';
 
 const CustomerDetails = () => {
 	const [customer, setCustomer] = useState({});
@@ -88,6 +90,13 @@ const CustomerDetails = () => {
 						Delete
 					</Button>
 				</ListGroup.Item>
+			) : (
+				''
+			)}
+			{customer.id ? (
+				<Container>
+					<Comments id={customer.id} table={'customers'} />
+				</Container>
 			) : (
 				''
 			)}

@@ -5,6 +5,7 @@ import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/esm/Container';
+import Comments from '../comments/Comments';
 
 const ProductDetails = () => {
 	const [product, setProduct] = useState({});
@@ -62,6 +63,13 @@ const ProductDetails = () => {
 						}}>
 						Delete
 					</Button>
+				</Container>
+			) : (
+				''
+			)}
+			{product.id ? (
+				<Container>
+					<Comments id={product.id} table={'products'} />
 				</Container>
 			) : (
 				''

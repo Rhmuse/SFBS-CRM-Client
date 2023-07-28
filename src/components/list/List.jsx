@@ -17,7 +17,9 @@ import Col from 'react-bootstrap/Col';
 
 const List = ({ type }) => {
 	const [list, setList] = useState([]);
+	const [filteredList, setFilteredList] = useState([]);
 	const [newEntryButton, setNewEntryButton] = useState();
+	const [searchTerm, setSearchTerm] = useState('');
 
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 
@@ -36,6 +38,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(orders);
+						setFilteredList(orders);
 						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
@@ -52,6 +55,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(customers);
+						setFilteredList(customers);
 						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
@@ -77,6 +81,7 @@ const List = ({ type }) => {
 									);
 								});
 								setList(employees);
+								setFilteredList(employees);
 								if (Utilities.isManager(crmUserObject))
 									setNewEntryButton(
 										<NewEntryButton type={type} />
@@ -95,6 +100,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(leads);
+						setFilteredList(leads);
 						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
@@ -111,18 +117,8 @@ const List = ({ type }) => {
 							);
 						});
 						setList(products);
+						setFilteredList(products);
 						setNewEntryButton(<NewEntryButton type={type} />);
-					});
-				break;
-			case 'invoices':
-				fetch('http://localhost:8088/invoices')
-					.then((res) => res.json())
-					.then((i) => {
-						const invoices = i.map((invoice) => {
-							return <></>;
-						});
-						setList(invoices);
-						setNewEntryButton(<></>);
 					});
 				break;
 			default:
@@ -130,6 +126,70 @@ const List = ({ type }) => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [type]);
+
+	useEffect(() => {
+		const listCopy = [...list];
+		let filtered;
+		switch (type) {
+			case 'customers':
+				filtered = listCopy.filter((i) =>
+					i.props.customer.companyName
+						.toLowerCase()
+						.includes(searchTerm.toLowerCase())
+				);
+				setFilteredList(filtered);
+				break;
+			case 'leads':
+				filtered = listCopy.filter(
+					(i) =>
+						i.props.lead.companyName
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.lead.contactFirstName
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.lead.contactLastName
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())
+				);
+				setFilteredList(filtered);
+				break;
+			case 'orders':
+				filtered = listCopy.filter(
+					(i) =>
+						i.props.order.customer.companyName
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.order.id.toString().includes(searchTerm)
+				);
+				setFilteredList(filtered);
+				break;
+			case 'products':
+				filtered = listCopy.filter(
+					(i) =>
+						i.props.product.name
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.product.id.toString().includes(searchTerm)
+				);
+				setFilteredList(filtered);
+				break;
+			case 'employees':
+				filtered = listCopy.filter(
+					(i) =>
+						i.props.employee.user.firstName
+							.concat(` ${i.props.employee.user.lastName}`)
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.employee.id.toString().includes(searchTerm)
+				);
+				setFilteredList(filtered);
+				break;
+			default:
+				break;
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [searchTerm]);
 
 	return (
 		<Container key='list' fluid>
@@ -139,6 +199,10 @@ const List = ({ type }) => {
 						type='text'
 						id='searchBar'
 						placeholder='Search'
+						value={searchTerm}
+						onChange={(e) => {
+							setSearchTerm(e.target.value);
+						}}
 					/>
 				</Col>
 				<Col className='search-col'></Col>
@@ -147,7 +211,7 @@ const List = ({ type }) => {
 				</Col>
 			</Row>
 			<Container className=''>
-				<ListGroup>{list}</ListGroup>
+				<ListGroup>{filteredList}</ListGroup>
 			</Container>
 		</Container>
 	);

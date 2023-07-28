@@ -3,6 +3,10 @@ import './NavBar.css';
 import Nav from 'react-bootstrap/Nav';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
+import Image from 'react-bootstrap/esm/Image';
+import Navbar from 'react-bootstrap/esm/Navbar';
+import NavDropdown from 'react-bootstrap/esm/NavDropdown';
+import Container from 'react-bootstrap/esm/Container';
 
 const NavBar = () => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
@@ -31,94 +35,43 @@ const NavBar = () => {
 		);
 	} else if (crmUserObject.roles.find((r) => r === 'Employee')) {
 		return (
-			<Row>
-				<Nav
-					activeKey='/dashboard'
-					className='flex flex-row nav-container'>
-					<Col>
-						<Nav.Item>
-							<Nav.Link
-								as={NavLink}
-								to={'/dashboard'}
-								className='nav-item'>
+			<Navbar>
+				<Container>
+					<Navbar.Brand>
+						<Image
+							src='https://wallpaperaccess.com/full/2376875.png'
+							alt='logo'
+							className='logo'
+						/>
+					</Navbar.Brand>
+					<Navbar.Toggle />
+					<Navbar.Collapse>
+						<Nav>
+							<Nav.Link as={NavLink} to={'/dashboard'}>
 								Dashboard
 							</Nav.Link>
-						</Nav.Item>
-					</Col>
-					<Col>
-						<Nav.Item>
-							<Nav.Link
-								as={NavLink}
-								to={'/customers'}
-								className='nav-item'>
+							<Nav.Link as={NavLink} to={'/customers'}>
 								Customers
 							</Nav.Link>
-						</Nav.Item>
-					</Col>
-					<Col>
-						<Nav.Item>
-							<Nav.Link
-								as={NavLink}
-								to={'/leads'}
-								className='nav-item'>
+							<Nav.Link as={NavLink} to={'/leads'}>
 								Leads
 							</Nav.Link>
-						</Nav.Item>
-					</Col>
-					<Col>
-						<Nav.Item>
-							<Nav.Link
-								as={NavLink}
-								to={'/orders'}
-								className='nav-item'>
+							<Nav.Link as={NavLink} to={'/orders'}>
 								Orders
 							</Nav.Link>
-						</Nav.Item>
-					</Col>
-					<Col>
-						<Nav.Item>
-							<Nav.Link
-								as={NavLink}
-								to={'/invoices'}
-								className='nav-item'>
-								Invoices
-							</Nav.Link>
-						</Nav.Item>
-					</Col>
-					<Col>
-						<Nav.Item>
-							<Nav.Link
-								as={NavLink}
-								to={'/products'}
-								className='nav-item'>
+							<Nav.Link as={NavLink} to={'/products'}>
 								Products
 							</Nav.Link>
-						</Nav.Item>
-					</Col>
-					<Col>
-						<Nav.Item>
-							<Nav.Link
-								as={NavLink}
-								to={'/employees'}
-								className='nav-item'>
+							<Nav.Link as={NavLink} to={'/employees'}>
 								Employees
 							</Nav.Link>
-						</Nav.Item>
-					</Col>
-					<Col></Col>
-					<Col>
-						<Nav.Item className='flex flex-row profile'>
-							<Nav.Item>
-								<Nav.Link
-									as={NavLink}
-									to={`/profile/${crmUserObject.id}`}
-									className='nav-item'>
-									Profile
-								</Nav.Link>
-							</Nav.Item>
-							{localStorage.getItem('crm_user') ? (
-								<Nav.Link
-									className='nav-item'
+							<Nav.Link
+								as={NavLink}
+								to={`/profile/${crmUserObject.id}`}>
+								Profile
+							</Nav.Link>
+							<NavDropdown>
+								<NavDropdown.Item
 									as={Link}
 									to=''
 									onClick={() => {
@@ -126,60 +79,12 @@ const NavBar = () => {
 										navigate('/', { replace: true });
 									}}>
 									Logout
-								</Nav.Link>
-							) : (
-								''
-							)}
-						</Nav.Item>
-					</Col>
-				</Nav>
-			</Row>
-			// <nav className='flex flex-row nav-container space-between'>
-			// 	<img alt='logo' />
-			// 	<div className='flex flex-row space-between'>
-			// 		<Link to='/dashboard' className='nav-link'>
-			// 			Dashboard
-			// 		</Link>
-			// 		<Link to='/customers' className='nav-link'>
-			// 			Customers
-			// 		</Link>
-			// 		<Link to='/leads' className='nav-link'>
-			// 			Leads
-			// 		</Link>
-			// 		<Link to='/orders' className='nav-link'>
-			// 			Orders
-			// 		</Link>
-			// 		<Link to='/invoices' className='nav-link'>
-			// 			Invoices
-			// 		</Link>
-			// 		<Link to='/products' className='nav-link'>
-			// 			Products
-			// 		</Link>
-			// 		<Link to='/employees' className='nav-link'>
-			// 			Employees
-			// 		</Link>
-			// 		<div className='flex flex-row profile'>
-			// 			<Link to='/profile' className='nav-link'>
-			// 				Profile
-			// 			</Link>
-			// 			{localStorage.getItem('crm_user') ? (
-			// 				<div className='nav-logout'>
-			// 					<Link
-			// 						className='nav-link'
-			// 						to=''
-			// 						onClick={() => {
-			// 							localStorage.removeItem('crm_user');
-			// 							navigate('/', { replace: true });
-			// 						}}>
-			// 						Logout
-			// 					</Link>
-			// 				</div>
-			// 			) : (
-			// 				''
-			// 			)}
-			// 		</div>
-			// 	</div>
-			// </nav>
+								</NavDropdown.Item>
+							</NavDropdown>
+						</Nav>
+					</Navbar.Collapse>
+				</Container>
+			</Navbar>
 		);
 	}
 };

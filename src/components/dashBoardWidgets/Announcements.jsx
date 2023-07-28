@@ -59,22 +59,26 @@ const Announcements = () => {
 	return (
 		<Card>
 			<Card.Body>
-				<Card.Title>Announcements</Card.Title>
-				<ListGroup>
-					{announcements?.map((a) => {
-						return (
-							<ListGroup.Item key={`announcement--${a.id}`}>
-								<h6>{a.content}</h6>
-								<p>
-									{Utilities.dateFormatter(
-										a.announcementDate
-									)}
-								</p>
-								<p>Posted by: {a.posterName}</p>
-							</ListGroup.Item>
-						);
-					})}
-				</ListGroup>
+				<Card.Title className='announcement-widget-title'>
+					Announcements
+				</Card.Title>
+				<Card.Body>
+					<ListGroup className='announcement-list'>
+						{announcements?.map((a) => {
+							return (
+								<ListGroup.Item key={`announcement--${a.id}`}>
+									<h6>{a.content}</h6>
+									<p>
+										{Utilities.dateFormatter(
+											a.announcementDate
+										)}
+									</p>
+									<p>Posted by: {a.posterName}</p>
+								</ListGroup.Item>
+							);
+						})}
+					</ListGroup>
+				</Card.Body>
 				{Utilities.isManager(crmUserObject) ? (
 					<Container>
 						<Row className=''>

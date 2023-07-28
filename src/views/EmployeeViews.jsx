@@ -46,9 +46,6 @@ const EmployeeViews = () => {
 				<Route path='/orders/form' element={<OrderFormContainer />} />
 				<Route path='/orders/:orderId' element={<OrderDetails />} />
 
-				{/* Invoices */}
-				<Route path='/invoices' element={<></>} />
-
 				{/* Products */}
 				<Route path='/products' element={<List type='products' />} />
 				<Route path='/products/form' element={<ProductForm />} />

@@ -4,8 +4,16 @@
 
 .nav-item {
 	text-align: center;
+	align-content: center;
+	flex-wrap: wrap;
+	display: flex;
 }
 
 .col {
 	justify-content: center;
+}
+
+.logo {
+	height: 10rem !important;
+	width: 10rem !important;
 }

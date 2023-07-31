@@ -6,6 +6,8 @@ import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/esm/ListGroup';
+import Card from 'react-bootstrap/esm/Card';
+import Image from 'react-bootstrap/esm/Image';
 
 const EmployeeProfile = () => {
 	const { employeeId } = useParams();
@@ -56,64 +58,73 @@ const EmployeeProfile = () => {
 	}, [confirmDelete]);
 
 	return (
-		<Container>
-			<ListGroup>
-				<ListGroup.Item className='flex flex-row'>
-					<img src='#' alt='Profile' />
-					<h3>
-						{employee?.user?.firstName} {employee?.user?.lastName}
-					</h3>
-				</ListGroup.Item>
-				<ListGroup.Item>Email: {employee?.user?.email}</ListGroup.Item>
-				<ListGroup.Item>
-					Phone Number: {employee?.user?.phone}
-				</ListGroup.Item>
-				<ListGroup.Item>Gender: {employee.gender}</ListGroup.Item>
-				<ListGroup.Item>
-					Roles:
-					<ListGroup>
-						{employeeRoles.map((role) => {
-							return (
-								<ListGroup.Item key={`role--${role}`}>
-									{role}
-								</ListGroup.Item>
-							);
-						})}
-					</ListGroup>
-				</ListGroup.Item>
-				{Utilities.isManager(crmUserObject) ? (
-					<>
-						<ListGroup.Item>
-							Pay Rate: ${employee.payRate}
-						</ListGroup.Item>
-						<ListGroup.Item>
-							Hire Date: {employee.hireDate}
-						</ListGroup.Item>
-						<Container className='edit-delete-container'>
-							<Button
-								onClick={() => {
-									navigate(
-										`/employees/edit/${employee?.user?.id}/${employee.payRate}/${employee.gender}/${employee.hireDate}/${employee.locationId}/${employee.id}`
-									);
-								}}>
-								Edit
-							</Button>
-							<Button onClick={() => setRenderDialogBox(true)}>
-								Delete
-							</Button>
-						</Container>
-					</>
-				) : (
-					''
-				)}
-				<AreYouSureDialog
-					isOpen={renderDialogBox}
-					setRenderDialogBox={setRenderDialogBox}
-					setConfirmAction={setConfirmDelete}
-					action={'delete this employee'}
-				/>
-			</ListGroup>
-		</Container>
+		<Card>
+			<Card.Body>
+				<ListGroup variant='flush'>
+					<Card.Title>
+						<Image variant='roundedCircle' src='#' alt='Profile' />
+						<h3>
+							{employee?.user?.firstName}{' '}
+							{employee?.user?.lastName}
+						</h3>
+					</Card.Title>
+					<ListGroup.Item className='flex flex-row'></ListGroup.Item>
+					<ListGroup.Item>
+						Email: {employee?.user?.email}
+					</ListGroup.Item>
+					<ListGroup.Item>
+						Phone Number: {employee?.user?.phone}
+					</ListGroup.Item>
+					<ListGroup.Item>Gender: {employee.gender}</ListGroup.Item>
+					<ListGroup.Item>
+						Roles:
+						<ListGroup>
+							{employeeRoles.map((role) => {
+								return (
+									<ListGroup.Item key={`role--${role}`}>
+										{role}
+									</ListGroup.Item>
+								);
+							})}
+						</ListGroup>
+					</ListGroup.Item>
+					{Utilities.isManager(crmUserObject) ? (
+						<>
+							<ListGroup.Item>
+								Pay Rate: ${employee.payRate}
+							</ListGroup.Item>
+							<ListGroup.Item>
+								Hire Date: {employee.hireDate}
+							</ListGroup.Item>
+							<Container className='edit-delete-container'>
+								<Button
+									variant='secondary'
+									onClick={() => {
+										navigate(
+											`/employees/edit/${employee?.user?.id}/${employee.payRate}/${employee.gender}/${employee.hireDate}/${employee.locationId}/${employee.id}`
+										);
+									}}>
+									Edit
+								</Button>
+								<Button
+									variant='tertiary'
+									onClick={() => setRenderDialogBox(true)}>
+									Delete
+								</Button>
+							</Container>
+						</>
+					) : (
+						''
+					)}{' '}
+				</ListGroup>
+			</Card.Body>
+			<AreYouSureDialog
+				isOpen={renderDialogBox}
+				setRenderDialogBox={setRenderDialogBox}
+				setConfirmAction={setConfirmDelete}
+				action={'delete this employee'}
+			/>
+		</Card>
 	);
 };
 

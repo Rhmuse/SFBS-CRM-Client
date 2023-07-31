@@ -53,8 +53,8 @@ const Comments = ({ table, id }) => {
 
 	if (comments.length > 0) {
 		return (
-			<ListGroup variant='flush'>
-				<h4>Comments</h4>
+			<ListGroup className='comment-container' variant='flush'>
+				<h3>Comments</h3>
 				{comments.map((c) => {
 					return (
 						<ListGroup.Item key={`comment--${c.id}`}>
@@ -83,7 +83,11 @@ const Comments = ({ table, id }) => {
 						}}
 					/>
 					<div className='save-button-container'>
-						<Button onClick={(e) => saveComment(e)}>Save</Button>
+						<Button
+							variant='secondary'
+							onClick={(e) => saveComment(e)}>
+							Save
+						</Button>
 					</div>
 				</ListGroup.Item>
 			</ListGroup>
@@ -103,7 +107,11 @@ const Comments = ({ table, id }) => {
 						}}
 					/>
 					<div className='save-button-container'>
-						<Button onClick={(e) => saveComment(e)}>Save</Button>
+						<Button
+							variant='secondary'
+							onClick={(e) => saveComment(e)}>
+							Save
+						</Button>
 					</div>
 				</ListGroup.Item>
 			</ListGroup>

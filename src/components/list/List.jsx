@@ -194,7 +194,7 @@ const List = ({ type }) => {
 	return (
 		<Container key='list' fluid>
 			<Row className='search-row'>
-				<Col className='search-col'>
+				<Col className='search-col' xs={5} sm={6} md={5} lg={4}>
 					<Form.Control
 						type='text'
 						id='searchBar'
@@ -206,11 +206,16 @@ const List = ({ type }) => {
 					/>
 				</Col>
 				<Col className='search-col'></Col>
-				<Col className='newEntry-button search-col'>
+				<Col
+					className='newEntry-button search-col'
+					xs={5}
+					sm={4}
+					md={3}>
 					{newEntryButton}
 				</Col>
 			</Row>
-			<Container className=''>
+
+			<Container className='list'>
 				<ListGroup>{filteredList}</ListGroup>
 			</Container>
 		</Container>

@@ -9,3 +9,17 @@
 	width: 18rem;
 	z-index: 100;
 }
+
+.button-container {
+	justify-content: end;
+	display: flex;
+}
+
+.dialog-button {
+	margin: 1rem;
+	width: 6rem;
+}
+
+h6 {
+	text-align: center;
+}

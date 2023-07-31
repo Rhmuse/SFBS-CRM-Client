@@ -1,5 +1,5 @@
 .search-row {
-	margin: 3rem;
+	margin: 1rem 3rem 0rem;
 }
 
 .search-col {
@@ -7,4 +7,8 @@
 	justify-content: center;
 	flex-wrap: wrap;
 	display: flex;
+}
+
+.list {
+	margin-top: 2rem;
 }

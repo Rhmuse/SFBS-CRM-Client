@@ -1,7 +1,7 @@
 body {
-	padding: 1rem;
-	background: linear-gradient(90deg, snow 1px, #f0f0f0 1px);
-	background-size: 5px 5px;
+	padding: 2.5rem;
+	/* background: linear-gradient(90deg, snow 1px, #f0f0f0 1px);
+	background-size: 5px 5px; */
 }
 
 .flex {
@@ -31,7 +31,12 @@ body {
 
 .new-button-container {
 	display: flex;
-	justify-content: end;
+	justify-content: flex-end;
 	flex-wrap: wrap;
 	padding: 1rem;
+}
+
+.details-button {
+	margin: 1rem;
+	width: 7rem;
 }

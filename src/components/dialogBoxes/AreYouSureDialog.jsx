@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/esm/Button';
 import Modal from 'react-bootstrap/esm/Modal';
+import Container from 'react-bootstrap/esm/Container';
 import './AreYouSureDialogBox.css';
 
 const AreYouSureDialog = ({
@@ -19,21 +20,27 @@ const AreYouSureDialog = ({
 					<h4>Are you sure you want to {action}?</h4>
 				</Modal.Header>
 				<Modal.Body>
-					<p>This cannot be undone.</p>
-					<Button
-						onClick={() => {
-							setRenderDialogBox(false);
-							setConfirmAction(true);
-						}}>
-						Yes
-					</Button>
-					<Button
-						onClick={() => {
-							setRenderDialogBox(false);
-							setConfirmAction(false);
-						}}>
-						No
-					</Button>
+					<h6>This cannot be undone.</h6>
+					<Container className='button-container'>
+						<Button
+							onClick={() => {
+								setRenderDialogBox(false);
+								setConfirmAction(true);
+							}}
+							variant='danger'
+							className='dialog-button'>
+							Yes
+						</Button>
+						<Button
+							onClick={() => {
+								setRenderDialogBox(false);
+								setConfirmAction(false);
+							}}
+							variant='secondary'
+							className='dialog-button'>
+							No
+						</Button>
+					</Container>
 				</Modal.Body>
 			</Modal>
 		);

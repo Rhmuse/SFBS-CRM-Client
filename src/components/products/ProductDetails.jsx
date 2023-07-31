@@ -6,6 +6,8 @@ import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/esm/Container';
 import Comments from '../comments/Comments';
+import Card from 'react-bootstrap/esm/Card';
+import ListGroup from 'react-bootstrap/esm/ListGroup';
 
 const ProductDetails = () => {
 	const [product, setProduct] = useState({});
@@ -43,30 +45,43 @@ const ProductDetails = () => {
 	}, [confirmDelete]);
 
 	return (
-		<div>
-			<h3>{product.name}</h3>
-			<p>{product.description}</p>
-			<p>Unit Price: {product.unitPrice}</p>
-			<p>Quantity in Stock: {product.stockQuantity}</p>
-			<p>Weight: {product.weightLbs}lbs</p>
-			{Utilities.isManager(crmUserObject) ? (
-				<Container className='edit-delete-container'>
-					<Button
-						onClick={() => {
-							navigate(`/products/edit/${product.id}`);
-						}}>
-						Edit
-					</Button>
-					<Button
-						onClick={() => {
-							setRenderDialogBox(true);
-						}}>
-						Delete
-					</Button>
-				</Container>
-			) : (
-				''
-			)}
+		<Card>
+			<Card.Body>
+				<Card.Title>
+					<h3>{product.name}</h3>
+				</Card.Title>
+				<ListGroup variant='flush'>
+					<ListGroup.Item>{product.description}</ListGroup.Item>
+					<ListGroup.Item>
+						Unit Price: {product.unitPrice}
+					</ListGroup.Item>
+					<ListGroup.Item>
+						Quantity in Stock: {product.stockQuantity}
+					</ListGroup.Item>
+					<ListGroup.Item>
+						Weight: {product.weightLbs}lbs
+					</ListGroup.Item>
+				</ListGroup>
+
+				{Utilities.isManager(crmUserObject) ? (
+					<Container className='edit-delete-container'>
+						<Button
+							onClick={() => {
+								navigate(`/products/edit/${product.id}`);
+							}}>
+							Edit
+						</Button>
+						<Button
+							onClick={() => {
+								setRenderDialogBox(true);
+							}}>
+							Delete
+						</Button>
+					</Container>
+				) : (
+					''
+				)}
+			</Card.Body>
 			{product.id ? (
 				<Container>
 					<Comments id={product.id} table={'products'} />
@@ -80,7 +95,7 @@ const ProductDetails = () => {
 				setConfirmAction={setConfirmDelete}
 				action={'delete this product'}
 			/>
-		</div>
+		</Card>
 	);
 };
 

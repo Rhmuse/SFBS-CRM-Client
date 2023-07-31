@@ -10,3 +10,7 @@
 .commenter {
 	text-align: end;
 }
+
+.comment-container {
+	margin: 1rem;
+}

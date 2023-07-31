@@ -9,6 +9,7 @@ import ListGroup from 'react-bootstrap/esm/ListGroup';
 import Order from '../orders/Order';
 import Comments from '../comments/Comments';
 import Container from 'react-bootstrap/esm/Container';
+import Card from 'react-bootstrap/esm/Card';
 
 const CustomerDetails = () => {
 	const [customer, setCustomer] = useState({});
@@ -57,13 +58,21 @@ const CustomerDetails = () => {
 	}, [confirmDelete]);
 
 	return (
-		<ListGroup>
-			<ListGroup.Item>
-				<h3>{customer.companyName}</h3>
-				<p>{customer.address}</p>
-				<p>{customer.companyPhone}</p>
-			</ListGroup.Item>
-			<ListGroup.Item>
+		<Card>
+			<Card.Body>
+				<Card.Title>
+					<h3>{customer.companyName}</h3>
+				</Card.Title>
+				<ListGroup variant='flush'>
+					<ListGroup.Item>
+						Address:
+						{customer.address}
+					</ListGroup.Item>
+					<ListGroup.Item>
+						Company Phone Number: {customer.companyPhone}
+					</ListGroup.Item>
+				</ListGroup>
+
 				<ListGroup>
 					{orders.map((order) => {
 						return (
@@ -74,25 +83,32 @@ const CustomerDetails = () => {
 						);
 					})}
 				</ListGroup>
-			</ListGroup.Item>
-			{Utilities.isManager(crmUserObject) ? (
-				<ListGroup.Item className='edit-delete-container'>
-					<Button
-						onClick={() => {
-							navigate(`/customers/edit/${customer.id}`);
-						}}>
-						Edit
-					</Button>
-					<Button
-						onClick={() => {
-							setRenderDialogBox(true);
-						}}>
-						Delete
-					</Button>
-				</ListGroup.Item>
-			) : (
-				''
-			)}
+
+				{Utilities.isManager(crmUserObject) ? (
+					<ListGroup.Item>
+						<Container className='edit-delete-container'>
+							<Button
+								variant='secondary'
+								className='details-button'
+								onClick={() => {
+									navigate(`/customers/edit/${customer.id}`);
+								}}>
+								Edit
+							</Button>
+							<Button
+								variant='tertiary'
+								className='details-button'
+								onClick={() => {
+									setRenderDialogBox(true);
+								}}>
+								Delete
+							</Button>
+						</Container>
+					</ListGroup.Item>
+				) : (
+					''
+				)}
+			</Card.Body>
 			{customer.id ? (
 				<Container>
 					<Comments id={customer.id} table={'customers'} />
@@ -106,7 +122,7 @@ const CustomerDetails = () => {
 				setConfirmAction={setConfirmDelete}
 				action={'delete this customer'}
 			/>
-		</ListGroup>
+		</Card>
 	);
 };
 

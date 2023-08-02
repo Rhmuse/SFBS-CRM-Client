@@ -59,16 +59,16 @@ const EmployeeProfile = () => {
 
 	return (
 		<Card>
+			<Card.Header>
+				<Card.Title className='flex flex-row'>
+					<Image variant='roundedCircle' src='#' alt='Profile' />
+					<h3>
+						{employee?.user?.firstName} {employee?.user?.lastName}
+					</h3>
+				</Card.Title>
+			</Card.Header>
 			<Card.Body>
 				<ListGroup variant='flush'>
-					<Card.Title>
-						<Image variant='roundedCircle' src='#' alt='Profile' />
-						<h3>
-							{employee?.user?.firstName}{' '}
-							{employee?.user?.lastName}
-						</h3>
-					</Card.Title>
-					<ListGroup.Item className='flex flex-row'></ListGroup.Item>
 					<ListGroup.Item>
 						Email: {employee?.user?.email}
 					</ListGroup.Item>

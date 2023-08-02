@@ -8,6 +8,8 @@ import './OrderForm.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/esm/Container';
+import Card from 'react-bootstrap/esm/Card';
+import ListGroup from 'react-bootstrap/esm/ListGroup';
 
 const Utility = new Utilities();
 const generator = Utility.iteratorGenerator();
@@ -141,51 +143,59 @@ const OrderForm = () => {
 	};
 
 	return (
-		<Form>
-			<h2>New Order</h2>
-			<div className='customer-select-container'>
-				<Form.Select
-					id='customer-input'
-					value={orderForm.customerId}
-					onChange={(e) => {
-						setOrderForm({
-							...orderForm,
-							customerId: parseInt(e.target.value),
-						});
-					}}>
-					<option value={''}>Select a customer...</option>
-					{customers.map((c) => {
-						return (
-							<option key={`customer-${c.id}`} value={c.id}>
-								{c.companyName}
-							</option>
-						);
-					})}
-				</Form.Select>
-				<Button
-					onClick={(e) => {
-						addLineItem(e);
-					}}>
-					Add Line Item
-				</Button>
-			</div>
-			<div className='lineItemList' key={`lineItemList}`}>
-				{lineItemListChildren}
-			</div>
-			<Container className='order-total-container'>
-				<p>
-					<b>Order Total: {formatter.format(orderTotal)}</b>
-				</p>
-			</Container>
-			<Container className='new-button-container'>
-				<Button
-					onClick={(e) => {
-						handleSubmit(e);
-					}}>
-					Submit Order
-				</Button>
-			</Container>
-		</Form>
+		<Card>
+			<Card.Body>
+				<Card.Title>
+					<h2>New Order</h2>
+				</Card.Title>
+				<Form>
+					<Container className='customer-select-container'>
+						<Form.Select
+							id='customer-input'
+							value={orderForm.customerId}
+							onChange={(e) => {
+								setOrderForm({
+									...orderForm,
+									customerId: parseInt(e.target.value),
+								});
+							}}>
+							<option value={''}>Select a customer...</option>
+							{customers.map((c) => {
+								return (
+									<option
+										key={`customer-${c.id}`}
+										value={c.id}>
+										{c.companyName}
+									</option>
+								);
+							})}
+						</Form.Select>
+						<Button
+							onClick={(e) => {
+								addLineItem(e);
+							}}>
+							Add Line Item
+						</Button>
+					</Container>
+					<ListGroup className='lineItemList' key={`lineItemList}`}>
+						{lineItemListChildren}
+					</ListGroup>
+					<Container className='order-total-container'>
+						<p>
+							<b>Order Total: {formatter.format(orderTotal)}</b>
+						</p>
+					</Container>
+					<Container className='new-button-container'>
+						<Button
+							onClick={(e) => {
+								handleSubmit(e);
+							}}>
+							Submit Order
+						</Button>
+					</Container>
+				</Form>
+			</Card.Body>
+		</Card>
 	);
 };
 

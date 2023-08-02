@@ -3,6 +3,7 @@ import Authorized from './views/Authorized';
 import NavBar from './components/nav/NavBar';
 import ApplicationViews from './views/ApplicationViews';
 import { Login } from './components/auth/Login';
+import ChatBar from './components/chat/ChatBar';
 
 const Main = () => {
 	return (
@@ -16,6 +17,7 @@ const Main = () => {
 						<>
 							<NavBar />
 							<ApplicationViews />
+							<ChatBar />
 						</>
 					</Authorized>
 				}

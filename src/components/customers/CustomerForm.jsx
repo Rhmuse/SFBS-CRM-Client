@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/esm/Container';
+import Card from 'react-bootstrap/esm/Card';
 
 const CustomerForm = () => {
 	const [customerForm, setCustomerForm] = useState({
@@ -138,121 +139,134 @@ const CustomerForm = () => {
 	};
 
 	return (
-		<Form>
-			<Form.Label htmlFor='companyName-input'>Company Name: </Form.Label>
-			<Form.Control
-				type='text'
-				id='companyName-input'
-				value={customerForm.companyName}
-				onChange={(e) => {
-					setCustomerForm({
-						...customerForm,
-						companyName: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='contactFirstName-input'>
-				Contact First Name:{' '}
-			</Form.Label>
-			<Form.Control
-				type='text'
-				id='contactFirstName-input'
-				value={customerForm.contactFirstName}
-				onChange={(e) => {
-					setCustomerForm({
-						...customerForm,
-						contactFirstName: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='contactLastName-input'>
-				Contact Last Name:{' '}
-			</Form.Label>
-			<Form.Control
-				type='text'
-				id='contactLastName-input'
-				value={customerForm.contactLastName}
-				onChange={(e) => {
-					setCustomerForm({
-						...customerForm,
-						contactLastName: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='contactEmail-input'>Email: </Form.Label>
-			<Form.Control
-				type='text'
-				id='contactEmail-input'
-				value={customerForm.contactEmail}
-				onChange={(e) => {
-					setCustomerForm({
-						...customerForm,
-						contactEmail: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='contactPhone-input'>
-				Contact Phone Number:{' '}
-			</Form.Label>
-			<Form.Control
-				type='text'
-				id='contactPhone-input'
-				value={customerForm.contactPhone}
-				onChange={(e) => {
-					setCustomerForm({
-						...customerForm,
-						contactPhone: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='address-input'>Address: </Form.Label>
-			<Form.Control
-				type='text'
-				id='address-input'
-				value={customerForm.address}
-				onChange={(e) => {
-					setCustomerForm({
-						...customerForm,
-						address: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='companyPhone-input'>
-				Company Phone Number:
-			</Form.Label>
-			<Form.Control
-				type='text'
-				id='companyPhone-input'
-				value={customerForm.companyPhone}
-				onChange={(e) => {
-					setCustomerForm({
-						...customerForm,
-						companyPhone: e.target.value,
-					});
-				}}
-			/>
-			<Container className='new-button-container'>
-				{params['*'].includes('edit') ? (
-					<Button
-						className='btn btn-primary'
-						onClick={(e) => handleEditButton(e)}>
-						Save Changes
-					</Button>
-				) : (
-					<Button
-						className='btn btn-primary'
-						onClick={(e) => handleSaveButton(e)}>
-						Save New Customer
-					</Button>
-				)}
-			</Container>
-		</Form>
+		<Card>
+			<Card.Header>
+				<Card.Title>
+					<h3>Customer Form</h3>
+				</Card.Title>
+			</Card.Header>
+			<Card.Body>
+				<Form>
+					<Form.Label htmlFor='companyName-input'>
+						Company Name:{' '}
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='companyName-input'
+						value={customerForm.companyName}
+						onChange={(e) => {
+							setCustomerForm({
+								...customerForm,
+								companyName: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='contactFirstName-input'>
+						Contact First Name:{' '}
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='contactFirstName-input'
+						value={customerForm.contactFirstName}
+						onChange={(e) => {
+							setCustomerForm({
+								...customerForm,
+								contactFirstName: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='contactLastName-input'>
+						Contact Last Name:{' '}
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='contactLastName-input'
+						value={customerForm.contactLastName}
+						onChange={(e) => {
+							setCustomerForm({
+								...customerForm,
+								contactLastName: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='contactEmail-input'>
+						Email:{' '}
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='contactEmail-input'
+						value={customerForm.contactEmail}
+						onChange={(e) => {
+							setCustomerForm({
+								...customerForm,
+								contactEmail: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='contactPhone-input'>
+						Contact Phone Number:{' '}
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='contactPhone-input'
+						value={customerForm.contactPhone}
+						onChange={(e) => {
+							setCustomerForm({
+								...customerForm,
+								contactPhone: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='address-input'>Address: </Form.Label>
+					<Form.Control
+						type='text'
+						id='address-input'
+						value={customerForm.address}
+						onChange={(e) => {
+							setCustomerForm({
+								...customerForm,
+								address: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='companyPhone-input'>
+						Company Phone Number:
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='companyPhone-input'
+						value={customerForm.companyPhone}
+						onChange={(e) => {
+							setCustomerForm({
+								...customerForm,
+								companyPhone: e.target.value,
+							});
+						}}
+					/>
+					<Container className='new-button-container'>
+						{params['*'].includes('edit') ? (
+							<Button
+								className='btn btn-primary'
+								onClick={(e) => handleEditButton(e)}>
+								Save Changes
+							</Button>
+						) : (
+							<Button
+								className='btn btn-primary'
+								onClick={(e) => handleSaveButton(e)}>
+								Save New Customer
+							</Button>
+						)}
+					</Container>
+				</Form>
+			</Card.Body>
+		</Card>
 	);
 };
 

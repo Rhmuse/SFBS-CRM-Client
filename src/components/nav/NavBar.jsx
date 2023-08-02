@@ -85,7 +85,7 @@ const NavBar = () => {
 										to={`/profile/${crmUserObject.id}`}>
 										<b>Profile</b>
 									</Nav.Link>
-									<NavDropdown>
+									<NavDropdown align='end'>
 										<NavDropdown.Item
 											as={Link}
 											to=''

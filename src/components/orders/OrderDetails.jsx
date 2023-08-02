@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/esm/Button';
 import ListGroup from 'react-bootstrap/esm/ListGroup';
 import Col from 'react-bootstrap/esm/Col';
 import Row from 'react-bootstrap/esm/Row';
+import Card from 'react-bootstrap/esm/Card';
 import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/esm/Container';
 import { createInvoice as downloadPdf } from '../invoices/createInvoice';
@@ -72,66 +73,86 @@ const OrderDetails = () => {
 	}, [confirmDelete]);
 
 	return (
-		<div>
-			<h3>Order #{order.id}</h3>
-			<p>{customer?.companyName}</p>
-			<p>Delivery Address: {customer?.address}</p>
-			<p>Phone Number: {customer?.companyPhone}</p>
-			<h5>Line Items: </h5>
-			<ListGroup>
-				{lineItems?.map((item) => {
-					return (
-						<ListGroup.Item
-							action
-							as={Link}
-							to={`/products/${item?.productId}`}
-							key={`lineitem--${item.id}`}>
-							<Row>
-								<Col>{item?.product?.name}</Col>
-								<Col></Col>
-								<Col>Quantity: {item.quantity}</Col>
-								<Col>
-									UnitPrice:{' '}
-									{formatter.format(item?.product?.unitPrice)}
-								</Col>
-								<Col>
-									Line Total:{' '}
-									{formatter.format(item.lineTotal)}
-								</Col>
-							</Row>
-						</ListGroup.Item>
-					);
-				})}
-				<ListGroup.Item>
-					<Row>
-						<Col></Col>
-						<Col></Col>
-						<Col></Col>
-						<Col></Col>
-						<Col>
-							Order Total: {formatter.format(order.totalAmount)}
-						</Col>
-					</Row>
-				</ListGroup.Item>
-			</ListGroup>
-			{Utilities.isManager(crmUserObject) ? (
-				<Container className='edit-delete-container'>
-					<Button
-						onClick={() => {
-							downloadPdf(order.id);
-						}}>
-						Download Invoice
-					</Button>
-					<Button
-						onClick={() => {
-							setRenderDialogBox(true);
-						}}>
-						Delete
-					</Button>
-				</Container>
-			) : (
-				''
-			)}
+		<Card>
+			<Card.Header>
+				<Card.Title>
+					<h3>Order #{order.id}</h3>
+				</Card.Title>
+			</Card.Header>
+			<Card.Body>
+				<ListGroup variant='flush'>
+					<ListGroup.Item>{customer?.companyName}</ListGroup.Item>
+					<ListGroup.Item>
+						Delivery Address: {customer?.address}
+					</ListGroup.Item>
+					<ListGroup.Item>
+						Phone Number: {customer?.companyPhone}
+					</ListGroup.Item>
+					<ListGroup.Item>
+						<h5>Line Items: </h5>
+						<ListGroup>
+							{lineItems?.map((item) => {
+								return (
+									<ListGroup.Item
+										action
+										as={Link}
+										to={`/products/${item?.productId}`}
+										key={`lineitem--${item.id}`}>
+										<Row>
+											<Col>{item?.product?.name}</Col>
+											<Col></Col>
+											<Col>Quantity: {item.quantity}</Col>
+											<Col>
+												UnitPrice:{' '}
+												{formatter.format(
+													item?.product?.unitPrice
+												)}
+											</Col>
+											<Col>
+												Line Total:{' '}
+												{formatter.format(
+													item.lineTotal
+												)}
+											</Col>
+										</Row>
+									</ListGroup.Item>
+								);
+							})}
+							<ListGroup.Item>
+								<Row>
+									<Col></Col>
+									<Col></Col>
+									<Col></Col>
+									<Col></Col>
+									<Col>
+										Order Total:{' '}
+										{formatter.format(order.totalAmount)}
+									</Col>
+								</Row>
+							</ListGroup.Item>
+						</ListGroup>
+					</ListGroup.Item>
+				</ListGroup>
+				{Utilities.isManager(crmUserObject) ? (
+					<Container className='edit-delete-container'>
+						<Button
+							onClick={() => {
+								downloadPdf(order.id);
+							}}>
+							Download Invoice
+						</Button>
+						<Button
+							variant='tertiary'
+							onClick={() => {
+								setRenderDialogBox(true);
+							}}>
+							Delete
+						</Button>
+					</Container>
+				) : (
+					''
+				)}
+			</Card.Body>
 			{order.id ? (
 				<Container>
 					<Comments id={order.id} table={'orders'} />
@@ -145,7 +166,7 @@ const OrderDetails = () => {
 				setConfirmAction={setConfirmDelete}
 				action={'delete this order'}
 			/>
-		</div>
+		</Card>
 	);
 };
 

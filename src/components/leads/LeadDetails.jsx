@@ -45,10 +45,12 @@ const LeadDetails = () => {
 
 	return (
 		<Card>
-			<Card.Body>
+			<Card.Header>
 				<Card.Title>
 					<h3>{lead.companyName}</h3>
 				</Card.Title>
+			</Card.Header>
+			<Card.Body>
 				<ListGroup variant='flush'>
 					<ListGroup.Item>
 						Company Phone Number: {lead.companyPhone}

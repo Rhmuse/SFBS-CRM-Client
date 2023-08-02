@@ -107,11 +107,12 @@ const LineItem = ({ products, itemKey }) => {
 					<Form.Label
 						htmlFor={`quantity-input-${itemKey}`}
 						className='order-label'>
-						Quantity:{' '}
+						Quantity
 					</Form.Label>
 					<Form.Control
 						id={`quantity-input-${itemKey}`}
 						type='number'
+						className='quantity-input'
 						max={maxQuantity}
 						min={0}
 						value={quantity}

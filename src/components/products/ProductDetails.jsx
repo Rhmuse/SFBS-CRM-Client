@@ -46,10 +46,13 @@ const ProductDetails = () => {
 
 	return (
 		<Card>
-			<Card.Body>
+			<Card.Header>
+				{' '}
 				<Card.Title>
 					<h3>{product.name}</h3>
 				</Card.Title>
+			</Card.Header>
+			<Card.Body>
 				<ListGroup variant='flush'>
 					<ListGroup.Item>{product.description}</ListGroup.Item>
 					<ListGroup.Item>

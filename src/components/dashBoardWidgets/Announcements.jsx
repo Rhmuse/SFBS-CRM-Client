@@ -58,31 +58,34 @@ const Announcements = () => {
 
 	return (
 		<Card>
-			<Card.Body>
+			<Card.Header>
 				<Card.Title className='announcement-widget-title'>
-					Announcements
+					<h4>Announcements</h4>
 				</Card.Title>
-				<Card.Body>
-					<ListGroup className='announcement-list'>
-						{announcements?.map((a) => {
-							return (
-								<ListGroup.Item key={`announcement--${a.id}`}>
-									<h6>{a.content}</h6>
-									<p>
-										{Utilities.dateFormatter(
-											a.announcementDate
-										)}
-									</p>
-									<p>Posted by: {a.posterName}</p>
-								</ListGroup.Item>
-							);
-						})}
-					</ListGroup>
-				</Card.Body>
+			</Card.Header>
+			<Card.Body>
+				<ListGroup className='announcement-list'>
+					{announcements?.map((a) => {
+						return (
+							<ListGroup.Item key={`announcement--${a.id}`}>
+								<h5>{a.content}</h5>
+								<p>
+									{Utilities.dateFormatter(
+										a.announcementDate
+									)}
+								</p>
+								<p>Posted by: {a.posterName}</p>
+							</ListGroup.Item>
+						);
+					})}
+				</ListGroup>
+
 				{Utilities.isManager(crmUserObject) ? (
 					<Container>
 						<Row className=''>
-							<Col className='announcement-input-container flex'>
+							<Col
+								className='announcement-input-container flex'
+								sm={6}>
 								<Form.Control
 									as='textarea'
 									className='announcement-input'

@@ -1,23 +1,30 @@
+html {
+	display: flex;
+	justify-content: center;
+}
+
 body {
-	padding: 2.5rem;
+	padding: 1rem 2rem;
 	/* background: linear-gradient(90deg, snow 1px, #f0f0f0 1px);
 	background-size: 5px 5px; */
+	width: 90% !important;
+	max-width: 60rem;
 }
 
 .flex {
-	display: flex;
+	display: flex !important;
 }
 
 .flex-row {
-	flex-direction: row;
+	flex-direction: row !important;
 }
 
 .flex-column {
-	flex-direction: column;
+	flex-direction: column !important;
 }
 
 .space-between {
-	justify-content: space-between;
+	justify-content: space-between !important;
 }
 
 .edit-delete-container {
@@ -39,4 +46,14 @@ body {
 .details-button {
 	margin: 1rem;
 	width: 7rem;
+}
+
+@media (min-width: 975px) {
+	.main-view-container {
+		width: 90% !important;
+	}
+}
+
+.card {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
 }

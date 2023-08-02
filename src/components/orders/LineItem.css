@@ -8,9 +8,31 @@
 	display: flex;
 	flex-direction: row;
 	text-align: end;
+	justify-content: center;
 }
 
 .line-total {
 	display: flex;
 	justify-content: flex-end;
+}
+
+.order-label {
+	justify-content: center;
+	display: flex;
+	align-content: center;
+	flex-wrap: wrap;
+}
+
+.quantity-input {
+	margin: 1rem;
+}
+
+.product-select {
+	margin: 1rem;
+}
+
+@media (max-width: 775px) {
+	.row {
+		flex-direction: column;
+	}
 }

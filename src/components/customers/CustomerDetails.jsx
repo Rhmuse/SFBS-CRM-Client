@@ -59,10 +59,12 @@ const CustomerDetails = () => {
 
 	return (
 		<Card>
-			<Card.Body>
+			<Card.Header>
 				<Card.Title>
 					<h3>{customer.companyName}</h3>
 				</Card.Title>
+			</Card.Header>
+			<Card.Body>
 				<ListGroup variant='flush'>
 					<ListGroup.Item>
 						Address:

@@ -8,17 +8,21 @@ import ListGroup from 'react-bootstrap/esm/ListGroup';
 import Form from 'react-bootstrap/esm/Form';
 
 import Chat from './Chat';
+import Container from 'react-bootstrap/esm/Container';
 
 const ChatBar = () => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 
 	const [conversations, setConversations] = useState([]);
-	const [selectedConversation, setSelectedCoversation] = useState(0);
-	const [recipientName, setRecipientName] = useState('');
+	const [selectedConversation, setSelectedCoversation] = useState({});
+	const [recipient, setRecipient] = useState({});
+	const [newConversationRecipientId, setNewConversationRecipientId] =
+		useState({});
 	const [users, setUsers] = useState([]);
 	const [showChatWindow, setShowChatWindow] = useState(false);
 	const [showSelectRecipientWindow, setShowSelectRecipientWindow] =
 		useState(false);
+
 	const chatWindow = useRef(null);
 	const selectRecipent = useRef(null);
 
@@ -32,42 +36,83 @@ const ChatBar = () => {
 					.then((res) => res.json())
 					.then((convo2) => {
 						let allConvos = [...convo1, ...convo2];
-						allConvos.forEach((c) => {
-							fetch(
-								`http://localhost:8088/chatMessages?conversationId=${c.id}`
-							)
-								.then((res) => res.json())
-								.then((messages) => {
-									c.messages = messages;
-								});
-						});
+						if (conversations.length !== allConvos)
+							allConvos.forEach((c) => {
+								fetch(
+									`http://localhost:8088/chatMessages?conversationId=${c.id}`
+								)
+									.then((res) => res.json())
+									.then((messages) => {
+										c.messages = messages;
+									});
+							});
 						setConversations(allConvos);
 					});
 			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selectedConversation]);
+
+	useEffect(() => {
 		fetch(`http://localhost:8088/users`)
 			.then((res) => res.json())
 			.then((u) => {
 				setUsers(u);
 			});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+	const handleNewConversation = (e) => {
+		e.preventDefault();
+
+		const convoObj = {
+			user_1: crmUserObject.id,
+			user_2: newConversationRecipientId,
+		};
+
+		const newConvoOptions = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(convoObj),
+		};
+
+		fetch('http://localhost:8088/conversations', newConvoOptions)
+			.then((res) => res.json())
+			.then((c) => {
+				c.messages = [];
+				setSelectedCoversation(c);
+			});
+	};
 
 	const findUserFullName = (id) => {
 		const foundUser = users.find((u) => u.id === id);
-		const fullName = `${foundUser.firstName} ${foundUser.lastName}`;
-		return fullName;
+		if (foundUser) {
+			const fullName = `${foundUser.firstName} ${foundUser.lastName}`;
+			return fullName;
+		} else {
+			return '';
+		}
 	};
 	return (
-		<footer className='chatBar bg-body-secondary'>
-			<Button
-				ref={chatWindow}
-				onClick={() => setShowChatWindow(!showChatWindow)}>
-				Your Coversations
-			</Button>
+		<Container className='chatBar'>
+			{!showChatWindow ? (
+				<Button
+					ref={chatWindow}
+					onClick={() => setShowChatWindow(!showChatWindow)}>
+					Your Conversations
+				</Button>
+			) : (
+				<Button
+					ref={chatWindow}
+					onClick={() => setShowChatWindow(!showChatWindow)}>
+					Close Conversations
+				</Button>
+			)}
+
 			<OverLay
 				target={chatWindow.current}
 				show={showChatWindow}
-				placement='top'>
+				placement='top-start'>
 				{({
 					placement: _placement,
 					arrowProps: _arrowProps,
@@ -90,14 +135,18 @@ const ChatBar = () => {
 												className='conversation-item'
 												onClick={() => {
 													setSelectedCoversation(c);
-													setRecipientName(
+													setRecipient(
 														c.user_1 ===
 															crmUserObject.id
-															? findUserFullName(
-																	c.user_2
+															? users.find(
+																	(u) =>
+																		u.id ===
+																		c.user_2
 															  )
-															: findUserFullName(
-																	c.user_1
+															: users.find(
+																	(u) =>
+																		u.id ===
+																		c.user_1
 															  )
 													);
 												}}>
@@ -120,6 +169,12 @@ const ChatBar = () => {
 										New Conversation
 									</Button>
 									<OverLay
+										rootClose={true}
+										onHide={() => {
+											setShowSelectRecipientWindow(
+												!showSelectRecipientWindow
+											);
+										}}
 										target={selectRecipent.current}
 										show={showSelectRecipientWindow}
 										placement='top'>
@@ -136,25 +191,47 @@ const ChatBar = () => {
 												{...props}
 												className='select-recipient'>
 												<Card.Body>
-													<Form.Select>
+													<Form.Select
+														onChange={(e) => {
+															setNewConversationRecipientId(
+																parseInt(
+																	e.target
+																		.value
+																)
+															);
+														}}>
 														<option>
 															Select a user...
 														</option>
+														{/*eslint-disable-next-line array-callback-return*/}
 														{users.map((u) => {
-															return (
-																<option
-																	value={u}>
-																	{findUserFullName(
-																		u.id
-																	)}
-																</option>
-															);
+															if (
+																u.id ===
+																crmUserObject.id
+															) {
+															} else {
+																return (
+																	<option
+																		key={`user-option-${u.id}`}
+																		value={
+																			u.id
+																		}>
+																		{findUserFullName(
+																			u.id
+																		)}
+																	</option>
+																);
+															}
 														})}
 													</Form.Select>
 													<Button
-														onClick={() => {
+														variant='secondary'
+														onClick={(e) => {
 															setShowSelectRecipientWindow(
 																!showSelectRecipientWindow
+															);
+															handleNewConversation(
+																e
 															);
 														}}>
 														Start Conversation
@@ -169,8 +246,9 @@ const ChatBar = () => {
 								<ListGroup>
 									<Chat
 										conversation={selectedConversation}
-										recipient={recipientName}
-										key={`conversation-${recipientName}`}
+										setConversation={setSelectedCoversation}
+										recipient={recipient}
+										key={`conversation-${recipient.id}`}
 									/>
 								</ListGroup>
 							</ListGroup.Item>
@@ -178,7 +256,7 @@ const ChatBar = () => {
 					</Card>
 				)}
 			</OverLay>
-		</footer>
+		</Container>
 	);
 };
 

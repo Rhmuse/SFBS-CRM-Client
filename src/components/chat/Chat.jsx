@@ -3,13 +3,51 @@ import './Chat.css';
 import Form from 'react-bootstrap/esm/Form';
 import ListGroup from 'react-bootstrap/esm/ListGroup';
 import Button from 'react-bootstrap/esm/Button';
+import { useState } from 'react';
 
-const Chat = ({ conversation, recipient }) => {
+const Chat = ({ conversation, recipient, setConversation }) => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 
-	if (conversation) {
+	const [inputContent, setInputContent] = useState('');
+
+	const handleSend = (e) => {
+		e.preventDefault();
+
+		const messageObj = {
+			recipientId: recipient.id,
+			senderId: crmUserObject.id,
+			messageDate: Date.now(),
+			content: inputContent,
+			conversationId: conversation.id,
+		};
+
+		const messageOptions = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(messageObj),
+		};
+
+		fetch('http://localhost:8088/chatMessages', messageOptions)
+			.then((res) => res.json())
+			.then((m) => {
+				setConversation({
+					...conversation,
+					messages: [...conversation.messages, m],
+				});
+				setInputContent('');
+			});
+	};
+
+	if (conversation.messages) {
 		return (
 			<>
+				<ListGroup.Item>
+					<h5>
+						{recipient.firstName} {recipient.lastName}
+					</h5>
+				</ListGroup.Item>
 				<ListGroup.Item>
 					<ListGroup variant='flush'>
 						{conversation.messages.map((m) => {
@@ -29,7 +67,7 @@ const Chat = ({ conversation, recipient }) => {
 										key={`message-${m.id}`}>
 										{m.content}
 										<p className='chat-attribution'>
-											{recipient}
+											{`${recipient.firstName} ${recipient.lastName}`}
 										</p>
 									</ListGroup.Item>
 								);
@@ -38,8 +76,20 @@ const Chat = ({ conversation, recipient }) => {
 					</ListGroup>
 				</ListGroup.Item>
 				<ListGroup.Item className='flex flex-row'>
-					<Form.Control type='text' />
-					<Button>Send</Button>
+					<Form.Control
+						type='text'
+						value={inputContent}
+						onChange={(e) => {
+							setInputContent(e.target.value);
+						}}
+					/>
+					<Button
+						className='send-button'
+						onClick={(e) => {
+							handleSend(e);
+						}}>
+						Send
+					</Button>
 				</ListGroup.Item>
 			</>
 		);
@@ -47,11 +97,13 @@ const Chat = ({ conversation, recipient }) => {
 		return (
 			<>
 				<ListGroup.Item>
-					<ListGroup variant='flush'>Select a Conversation</ListGroup>
+					<h5>Select a Conversation</h5>
 				</ListGroup.Item>
 				<ListGroup.Item className='flex flex-row'>
 					<Form.Control type='text' />
-					<Button disabled>Send</Button>
+					<Button disabled className='send-button'>
+						Send
+					</Button>
 				</ListGroup.Item>
 			</>
 		);

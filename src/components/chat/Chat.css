@@ -3,6 +3,10 @@
 }
 
 .chat-attribution {
-	margin-top: 0.3rem;
+	margin-top: 0.2rem;
 	font-size: 0.7rem;
+}
+
+.send-button {
+	margin-left: 0.6rem;
 }

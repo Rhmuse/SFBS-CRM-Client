@@ -14,11 +14,9 @@ const Main = () => {
 				path='*'
 				element={
 					<Authorized>
-						<>
-							<NavBar />
-							<ApplicationViews />
-							<ChatBar />
-						</>
+						<NavBar />
+						<ApplicationViews />
+						<ChatBar />
 					</Authorized>
 				}
 			/>

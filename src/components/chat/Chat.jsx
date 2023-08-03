@@ -36,8 +36,15 @@ const Chat = ({ conversation, recipient, setConversation }) => {
 					...conversation,
 					messages: [...conversation.messages, m],
 				});
+				updateScroll();
 				setInputContent('');
 			});
+	};
+
+	const updateScroll = () => {
+		let chatArea = document.getElementsByClassName('selected-chat');
+		if (chatArea.length > 0)
+			chatArea[0].scrollTop = chatArea[0].scrollHeight;
 	};
 
 	if (conversation.messages) {
@@ -49,7 +56,7 @@ const Chat = ({ conversation, recipient, setConversation }) => {
 					</h5>
 				</ListGroup.Item>
 				<ListGroup.Item>
-					<ListGroup variant='flush'>
+					<ListGroup variant='flush' className='selected-chat'>
 						{conversation.messages.map((m) => {
 							if (m.senderId === crmUserObject.id) {
 								return (
@@ -73,6 +80,7 @@ const Chat = ({ conversation, recipient, setConversation }) => {
 								);
 							}
 						})}
+						{updateScroll()}
 					</ListGroup>
 				</ListGroup.Item>
 				<ListGroup.Item className='flex flex-row'>

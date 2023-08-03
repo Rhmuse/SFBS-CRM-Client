@@ -10,3 +10,8 @@
 .send-button {
 	margin-left: 0.6rem;
 }
+
+.selected-chat {
+	height: 13rem;
+	overflow-y: scroll;
+}

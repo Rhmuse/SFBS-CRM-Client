@@ -16,7 +16,6 @@ const Announcements = () => {
 	const [announcements, setAnnouncements] = useState();
 	const [newAnnouncement, setNewAnnouncement] = useState({
 		posterId: crmUserObject.id,
-		announcementDate: Date.now(),
 		content: '',
 	});
 
@@ -33,25 +32,33 @@ const Announcements = () => {
 							);
 							a.posterName = `${foundUser.firstName} ${foundUser.lastName}`;
 						}
-						setAnnouncements(announcements);
+						announcements.reverse();
+						setAnnouncements(announcements.slice(0, 4));
 					});
 			});
 	}, []);
 
 	const handlePost = () => {
+		const announcementObj = {
+			posterId: newAnnouncement.posterId,
+			announcementsDate: Date.now(),
+			content: newAnnouncement.content,
+		};
+
 		const options = {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(newAnnouncement),
+			body: JSON.stringify(announcementObj),
 		};
 
 		fetch('http://localhost:8088/announcements', options).then(() => {
 			fetch('http://localhost:8088/announcements')
 				.then((res) => res.json())
 				.then((a) => {
-					setAnnouncements(a);
+					a.reverse();
+					setAnnouncements(a.slice(0, 4));
 				});
 		});
 	};

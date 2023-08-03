@@ -70,6 +70,9 @@ const EmployeeProfile = () => {
 			<Card.Body>
 				<ListGroup variant='flush'>
 					<ListGroup.Item>
+						User Id: {employee?.user?.id}
+					</ListGroup.Item>
+					<ListGroup.Item>
 						Email: {employee?.user?.email}
 					</ListGroup.Item>
 					<ListGroup.Item>

@@ -4,11 +4,20 @@ import NavBar from './components/nav/NavBar';
 import ApplicationViews from './views/ApplicationViews';
 import { Login } from './components/auth/Login';
 import ChatBar from './components/chat/ChatBar';
+import Footer from './components/footer/Footer';
 
 const Main = () => {
 	return (
 		<Routes>
-			<Route path='/login' element={<Login />} />
+			<Route
+				path='/login'
+				element={
+					<>
+						<Login />
+						<Footer />
+					</>
+				}
+			/>
 
 			<Route
 				path='*'
@@ -16,6 +25,7 @@ const Main = () => {
 					<Authorized>
 						<NavBar />
 						<ApplicationViews />
+						<Footer />
 						<ChatBar />
 					</Authorized>
 				}

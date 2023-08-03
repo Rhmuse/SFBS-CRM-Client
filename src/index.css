@@ -3,12 +3,23 @@ html {
 	justify-content: center;
 }
 
+#root {
+	position: relative;
+}
+
 body {
 	padding: 1rem 2rem;
 	/* background: linear-gradient(90deg, snow 1px, #f0f0f0 1px);
 	background-size: 5px 5px; */
 	width: 90% !important;
 	max-width: 60rem;
+}
+
+.btn-primary {
+	color: rgb(215, 214, 223) !important;
+	background-color: rgb(21, 56, 78) !important;
+	border: rgba(218, 217, 225, 0.782) 2px solid !important;
+	box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 8px 0 rgba(0, 0, 0, 0.19) !important;
 }
 
 .flex {

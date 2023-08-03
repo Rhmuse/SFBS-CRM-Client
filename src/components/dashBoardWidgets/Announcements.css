@@ -22,3 +22,12 @@
 .announcement-widget-title {
 	text-align: left;
 }
+
+.announcement-content {
+	text-align: left;
+}
+
+.announcement-details {
+	font-size: small;
+	line-height: 0.5rem;
+}

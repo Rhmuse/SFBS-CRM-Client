@@ -4,6 +4,7 @@ import Announcements from '../dashBoardWidgets/Announcements';
 
 import Container from 'react-bootstrap/esm/Container';
 import Col from 'react-bootstrap/esm/Col';
+import AssignedLeads from '../dashBoardWidgets/AssignedLeads';
 
 const Dashboard = () => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
@@ -18,7 +19,9 @@ const Dashboard = () => {
 					<Col>
 						<Announcements />
 					</Col>
-					<Col></Col>
+					<Col>
+						<AssignedLeads />
+					</Col>
 				</Row>
 				<Row>
 					<Col></Col>

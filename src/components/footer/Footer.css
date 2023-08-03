@@ -1,0 +1,10 @@
+.footer-container {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	overflow: hidden;
+}
+
+.footer-container p {
+	text-align: center;
+}

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/esm/Container';
+import Card from 'react-bootstrap/esm/Card';
 
 const genderArr = ['Female', 'Male', 'Nonbinary', 'N/A'];
 
@@ -298,148 +299,165 @@ const EmployeeForm = () => {
 		}
 	};
 	return (
-		<Form>
-			<Form.Label htmlFor='firstName-input'>First Name: </Form.Label>
-			<Form.Control
-				type='text'
-				id='firstName-input'
-				value={employeeForm.firstName}
-				onChange={(e) => {
-					setEmployeeForm({
-						...employeeForm,
-						firstName: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='lastName-input'>Last Name: </Form.Label>
-			<Form.Control
-				type='text'
-				id='lastName-input'
-				value={employeeForm.lastName}
-				onChange={(e) => {
-					setEmployeeForm({
-						...employeeForm,
-						lastName: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='email-input'>Email: </Form.Label>
-			<Form.Control
-				type='text'
-				id='email-input'
-				value={employeeForm.email}
-				onChange={(e) => {
-					setEmployeeForm({
-						...employeeForm,
-						email: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='phone-input'>Phone Number: </Form.Label>
-			<Form.Control
-				type='text'
-				id='phone-input'
-				value={employeeForm.phone}
-				onChange={(e) => {
-					setEmployeeForm({
-						...employeeForm,
-						phone: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='payRate-input'>Pay Rate: </Form.Label>
-			<Form.Control
-				type='number'
-				id='payRate-input'
-				value={employeeForm.payRate}
-				onChange={(e) => {
-					setEmployeeForm({
-						...employeeForm,
-						payRate: parseFloat(e.target.value),
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='gender-input'>Gender: </Form.Label>
-			<Form.Select
-				id='gender-input'
-				value={employeeForm.gender}
-				onChange={(e) => {
-					setEmployeeForm({
-						...employeeForm,
-						gender: e.target.value,
-					});
-				}}>
-				<option value={''}>Select a gender...</option>
-				{genderArr.map((g) => {
-					return (
-						<option key={`gender-${g}`} value={g}>
-							{g}
-						</option>
-					);
-				})}
-			</Form.Select>
-
-			<Form.Label htmlFor='hireDate-input'>Hire Date: </Form.Label>
-			<Form.Control
-				type='date'
-				id='hireDate-input'
-				value={employeeForm.hireDate}
-				onChange={(e) => {
-					setEmployeeForm({
-						...employeeForm,
-						hireDate: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='location-input'>Location: </Form.Label>
-			<Form.Select
-				id='location-input'
-				value={employeeForm.locationId}
-				onChange={(e) => {
-					setEmployeeForm({
-						...employeeForm,
-						locationId: parseInt(e.target.value),
-					});
-				}}>
-				<option value={''}>Select a location...</option>
-				{locations.map((l) => {
-					return (
-						<option key={`location-${l.id}`} value={l.id}>
-							{l.name}
-						</option>
-					);
-				})}
-			</Form.Select>
-
-			<legend>Roles: </legend>
-			<Container className='role-input-container'>
-				{/* TODO: Remove Customer as an option and clear checkboxs on send and populate checkboxes on redirect */}
-				{roles.map((role) => {
-					return handleRoleCheckBox(role);
-				})}
-			</Container>
-			<Container className='new-button-container'>
-				{params['*'].includes('edit') ? (
-					<Button
-						className='btn btn-primary'
-						onClick={(e) => handleEditButton(e)}>
-						Save Changes
-					</Button>
-				) : (
-					<Button
-						className='btn btn-primary'
-						onClick={(e) => handleSaveButton(e)}>
-						Save New Employee
-					</Button>
-				)}
-			</Container>
-		</Form>
+		<Card>
+			<Card.Header>
+				<Card.Title>
+					<h3>Employee Form</h3>
+				</Card.Title>
+			</Card.Header>
+			<Card.Body>
+				<Form>
+					<Form.Label htmlFor='firstName-input'>
+						First Name:{' '}
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='firstName-input'
+						value={employeeForm.firstName}
+						onChange={(e) => {
+							setEmployeeForm({
+								...employeeForm,
+								firstName: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='lastName-input'>
+						Last Name:{' '}
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='lastName-input'
+						value={employeeForm.lastName}
+						onChange={(e) => {
+							setEmployeeForm({
+								...employeeForm,
+								lastName: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='email-input'>Email: </Form.Label>
+					<Form.Control
+						type='text'
+						id='email-input'
+						value={employeeForm.email}
+						onChange={(e) => {
+							setEmployeeForm({
+								...employeeForm,
+								email: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='phone-input'>
+						Phone Number:{' '}
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='phone-input'
+						value={employeeForm.phone}
+						onChange={(e) => {
+							setEmployeeForm({
+								...employeeForm,
+								phone: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='payRate-input'>Pay Rate: </Form.Label>
+					<Form.Control
+						type='number'
+						id='payRate-input'
+						value={employeeForm.payRate}
+						onChange={(e) => {
+							setEmployeeForm({
+								...employeeForm,
+								payRate: parseFloat(e.target.value),
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='gender-input'>Gender: </Form.Label>
+					<Form.Select
+						id='gender-input'
+						value={employeeForm.gender}
+						onChange={(e) => {
+							setEmployeeForm({
+								...employeeForm,
+								gender: e.target.value,
+							});
+						}}>
+						<option value={''}>Select a gender...</option>
+						{genderArr.map((g) => {
+							return (
+								<option key={`gender-${g}`} value={g}>
+									{g}
+								</option>
+							);
+						})}
+					</Form.Select>
+					<hr />
+					<Form.Label htmlFor='hireDate-input'>
+						Hire Date:{' '}
+					</Form.Label>
+					<Form.Control
+						type='date'
+						id='hireDate-input'
+						value={employeeForm.hireDate}
+						onChange={(e) => {
+							setEmployeeForm({
+								...employeeForm,
+								hireDate: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='location-input'>Location: </Form.Label>
+					<Form.Select
+						id='location-input'
+						value={employeeForm.locationId}
+						onChange={(e) => {
+							setEmployeeForm({
+								...employeeForm,
+								locationId: parseInt(e.target.value),
+							});
+						}}>
+						<option value={''}>Select a location...</option>
+						{locations.map((l) => {
+							return (
+								<option key={`location-${l.id}`} value={l.id}>
+									{l.name}
+								</option>
+							);
+						})}
+					</Form.Select>
+					<hr />
+					<legend>Roles: </legend>
+					<Container className='role-input-container'>
+						{/* TODO: Remove Customer as an option and clear checkboxs on send and populate checkboxes on redirect */}
+						{roles.map((role) => {
+							return handleRoleCheckBox(role);
+						})}
+					</Container>
+					<Container className='new-button-container'>
+						{params['*'].includes('edit') ? (
+							<Button
+								className='btn btn-primary'
+								onClick={(e) => handleEditButton(e)}>
+								Save Changes
+							</Button>
+						) : (
+							<Button
+								className='btn btn-primary'
+								onClick={(e) => handleSaveButton(e)}>
+								Save New Employee
+							</Button>
+						)}
+					</Container>
+				</Form>
+			</Card.Body>
+		</Card>
 	);
 };
 

@@ -13,7 +13,7 @@ const NewEntryButton = ({ type }) => {
 	};
 
 	return (
-		<Button onClick={(e) => handleClick(e)}>
+		<Button variant='primary' onClick={(e) => handleClick(e)}>
 			New {Utilities.capitalize(type).substring(0, type.length - 1)}
 		</Button>
 	);

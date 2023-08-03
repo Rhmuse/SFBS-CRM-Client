@@ -1,0 +1,35 @@
+.chatBar {
+	display: flex;
+	bottom: 0px;
+	right: 0px;
+	position: sticky;
+	z-index: 10;
+	border-radius: 1rem;
+	margin-top: 1rem;
+	padding: 0.5rem;
+	width: 100%;
+	justify-content: flex-end;
+}
+
+.chat-card {
+	z-index: 15;
+	margin-bottom: 1rem;
+}
+
+.conversation-options {
+	border-radius: 0.3rem !important;
+}
+
+.select-recipient {
+	padding: 1rem;
+	z-index: 20;
+}
+
+.select-recipient > .card-body {
+	display: flex;
+	flex-direction: row;
+}
+
+.select-recipient > .card-body button {
+	margin-left: 2rem;
+}

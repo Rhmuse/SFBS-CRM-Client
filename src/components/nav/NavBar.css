@@ -1,7 +1,30 @@
 .nav-container {
-	margin-bottom: 1rem !important ;
+	display: flex !important;
+	justify-content: space-around;
+	width: 95%;
 }
 
-.nav-item {
-	text-align: center;
+.nav-collapse-container {
+	justify-content: center;
+}
+
+.col {
+	justify-content: center;
+}
+
+.logo {
+	height: 6rem !important;
+	width: 10rem !important;
+}
+
+.offcanvas {
+	width: 19rem !important;
+}
+
+.nav-link {
+	margin: 0.5rem;
+}
+
+.nav-profile-container {
+	display: flex;
 }

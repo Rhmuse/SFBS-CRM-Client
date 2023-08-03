@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/esm/Container';
 
 const ProductForm = () => {
 	const [productForm, setProductForm] = useState({
@@ -75,97 +77,108 @@ const ProductForm = () => {
 	}, []);
 
 	return (
-		<Form>
-			<h2>New Product</h2>
-			<Form.Label htmlFor='product-input'>Product Name:</Form.Label>
-			<Form.Control
-				type='text'
-				id='productName-input'
-				value={productForm.name}
-				onChange={(e) => {
-					setProductForm({
-						...productForm,
-						name: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='product-input'>
-				Product Description:
-			</Form.Label>
-			<Form.Control
-				type='text'
-				id='productDescription-input'
-				value={productForm.description}
-				onChange={(e) => {
-					setProductForm({
-						...productForm,
-						description: e.target.value,
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='productUnitPrice-input'>
-				Product Price Per Unit:
-			</Form.Label>
-			<Form.Control
-				type='number'
-				id='productUnitPrice-input'
-				step='.01'
-				value={productForm.unitPrice}
-				onChange={(e) => {
-					setProductForm({
-						...productForm,
-						unitPrice: parseFloat(e.target.value),
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='productStockQuantity-input'>
-				Stock Quantity:
-			</Form.Label>
-			<Form.Control
-				type='number'
-				id='productStockQuantity-input'
-				value={productForm.stockQuantity}
-				onChange={(e) => {
-					setProductForm({
-						...productForm,
-						stockQuantity: parseInt(e.target.value),
-					});
-				}}
-			/>
-
-			<Form.Label htmlFor='product-input'>
-				Product Weight in Pounds:
-			</Form.Label>
-			<Form.Control
-				type='number'
-				id='product-input'
-				step='.01'
-				value={productForm.weightLbs}
-				onChange={(e) => {
-					setProductForm({
-						...productForm,
-						weightLbs: parseFloat(e.target.value),
-					});
-				}}
-			/>
-
-			{params['*'].includes('edit') ? (
-				<Button
-					className='btn btn-primary'
-					onClick={(e) => handleEditButton(e)}>
-					Save Changes
-				</Button>
-			) : (
-				<Button
-					className='btn btn-primary'
-					onClick={(e) => handleSaveButton(e)}>
-					Save New Product
-				</Button>
-			)}
-		</Form>
+		<Card>
+			<Card.Header>
+				<Card.Title>
+					<h3>Product Form</h3>
+				</Card.Title>
+			</Card.Header>
+			<Card.Body>
+				<Form>
+					<Form.Label htmlFor='product-input'>
+						Product Name:
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='productName-input'
+						value={productForm.name}
+						onChange={(e) => {
+							setProductForm({
+								...productForm,
+								name: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='product-input'>
+						Product Description:
+					</Form.Label>
+					<Form.Control
+						type='text'
+						id='productDescription-input'
+						value={productForm.description}
+						onChange={(e) => {
+							setProductForm({
+								...productForm,
+								description: e.target.value,
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='productUnitPrice-input'>
+						Product Price Per Unit:
+					</Form.Label>
+					<Form.Control
+						type='number'
+						id='productUnitPrice-input'
+						step='.01'
+						value={productForm.unitPrice}
+						onChange={(e) => {
+							setProductForm({
+								...productForm,
+								unitPrice: parseFloat(e.target.value),
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='productStockQuantity-input'>
+						Stock Quantity:
+					</Form.Label>
+					<Form.Control
+						type='number'
+						id='productStockQuantity-input'
+						value={productForm.stockQuantity}
+						onChange={(e) => {
+							setProductForm({
+								...productForm,
+								stockQuantity: parseInt(e.target.value),
+							});
+						}}
+					/>
+					<hr />
+					<Form.Label htmlFor='product-input'>
+						Product Weight in Pounds:
+					</Form.Label>
+					<Form.Control
+						type='number'
+						id='product-input'
+						step='.01'
+						value={productForm.weightLbs}
+						onChange={(e) => {
+							setProductForm({
+								...productForm,
+								weightLbs: parseFloat(e.target.value),
+							});
+						}}
+					/>
+					<Container className='new-button-container'>
+						{params['*'].includes('edit') ? (
+							<Button
+								className='btn btn-primary'
+								onClick={(e) => handleEditButton(e)}>
+								Save Changes
+							</Button>
+						) : (
+							<Button
+								className='btn btn-primary'
+								onClick={(e) => handleSaveButton(e)}>
+								Save New Product
+							</Button>
+						)}
+					</Container>
+				</Form>
+			</Card.Body>
+		</Card>
 	);
 };
 

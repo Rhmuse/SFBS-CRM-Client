@@ -4,7 +4,6 @@ import Customer from '../customers/Customer';
 import Lead from '../leads/Lead';
 import Employee from '../employees/Employee';
 import Product from '../products/Product';
-import Invoice from '../invoices/Invoice';
 import NewEntryButton from '../buttons/NewEntryButton';
 import './List.css';
 import Utilities from '../../Utilities';
@@ -18,7 +17,9 @@ import Col from 'react-bootstrap/Col';
 
 const List = ({ type }) => {
 	const [list, setList] = useState([]);
+	const [filteredList, setFilteredList] = useState([]);
 	const [newEntryButton, setNewEntryButton] = useState();
+	const [searchTerm, setSearchTerm] = useState('');
 
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 
@@ -37,6 +38,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(orders);
+						setFilteredList(orders);
 						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
@@ -53,6 +55,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(customers);
+						setFilteredList(customers);
 						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
@@ -78,6 +81,7 @@ const List = ({ type }) => {
 									);
 								});
 								setList(employees);
+								setFilteredList(employees);
 								if (Utilities.isManager(crmUserObject))
 									setNewEntryButton(
 										<NewEntryButton type={type} />
@@ -96,6 +100,7 @@ const List = ({ type }) => {
 							);
 						});
 						setList(leads);
+						setFilteredList(leads);
 						setNewEntryButton(<NewEntryButton type={type} />);
 					});
 				break;
@@ -112,23 +117,8 @@ const List = ({ type }) => {
 							);
 						});
 						setList(products);
+						setFilteredList(products);
 						setNewEntryButton(<NewEntryButton type={type} />);
-					});
-				break;
-			case 'invoices':
-				fetch('http://localhost:8088/invoices')
-					.then((res) => res.json())
-					.then((i) => {
-						const invoices = i.map((invoice) => {
-							return (
-								<Invoice
-									key={`invoice--${invoice.id}`}
-									invoice={invoice}
-								/>
-							);
-						});
-						setList(invoices);
-						setNewEntryButton(<></>);
 					});
 				break;
 			default:
@@ -137,23 +127,96 @@ const List = ({ type }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [type]);
 
+	useEffect(() => {
+		const listCopy = [...list];
+		let filtered;
+		switch (type) {
+			case 'customers':
+				filtered = listCopy.filter((i) =>
+					i.props.customer.companyName
+						.toLowerCase()
+						.includes(searchTerm.toLowerCase())
+				);
+				setFilteredList(filtered);
+				break;
+			case 'leads':
+				filtered = listCopy.filter(
+					(i) =>
+						i.props.lead.companyName
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.lead.contactFirstName
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.lead.contactLastName
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase())
+				);
+				setFilteredList(filtered);
+				break;
+			case 'orders':
+				filtered = listCopy.filter(
+					(i) =>
+						i.props.order.customer.companyName
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.order.id.toString().includes(searchTerm)
+				);
+				setFilteredList(filtered);
+				break;
+			case 'products':
+				filtered = listCopy.filter(
+					(i) =>
+						i.props.product.name
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.product.id.toString().includes(searchTerm)
+				);
+				setFilteredList(filtered);
+				break;
+			case 'employees':
+				filtered = listCopy.filter(
+					(i) =>
+						i.props.employee.user.firstName
+							.concat(` ${i.props.employee.user.lastName}`)
+							.toLowerCase()
+							.includes(searchTerm.toLowerCase()) ||
+						i.props.employee.id.toString().includes(searchTerm)
+				);
+				setFilteredList(filtered);
+				break;
+			default:
+				break;
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [searchTerm]);
+
 	return (
 		<Container key='list' fluid>
 			<Row className='search-row'>
-				<Col className='search-col'>
+				<Col className='search-col' xs={5} sm={6} md={5} lg={4}>
 					<Form.Control
 						type='text'
 						id='searchBar'
 						placeholder='Search'
+						value={searchTerm}
+						onChange={(e) => {
+							setSearchTerm(e.target.value);
+						}}
 					/>
 				</Col>
 				<Col className='search-col'></Col>
-				<Col className='newEntry-button search-col'>
+				<Col
+					className='newEntry-button search-col'
+					xs={5}
+					sm={4}
+					md={3}>
 					{newEntryButton}
 				</Col>
 			</Row>
-			<Container className=''>
-				<ListGroup>{list}</ListGroup>
+
+			<Container className='list'>
+				<ListGroup>{filteredList}</ListGroup>
 			</Container>
 		</Container>
 	);

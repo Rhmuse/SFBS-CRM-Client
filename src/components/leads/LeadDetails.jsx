@@ -4,6 +4,9 @@ import Utilities from '../../Utilities';
 import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 import Button from 'react-bootstrap/esm/Button';
 import Container from 'react-bootstrap/Container';
+import Comments from '../comments/Comments';
+import Card from 'react-bootstrap/esm/Card';
+import ListGroup from 'react-bootstrap/esm/ListGroup';
 
 const LeadDetails = () => {
 	const [lead, setLead] = useState({});
@@ -41,31 +44,56 @@ const LeadDetails = () => {
 	}, [confirmDelete]);
 
 	return (
-		<Container>
-			<h3>{lead.companyName}</h3>
-			<p>Company Phone Number: {lead.companyPhone}</p>
-			<p>
-				Contact: {lead.contactFirstName} {lead.contactLastName}
-			</p>
-			<p>Contact Phone Number: {lead.contactPhone}</p>
-			<p>Contact Email: {lead.contactEmail}</p>
-			<p>Address: {lead.address}</p>
+		<Card>
+			<Card.Header>
+				<Card.Title>
+					<h3>{lead.companyName}</h3>
+				</Card.Title>
+			</Card.Header>
+			<Card.Body>
+				<ListGroup variant='flush'>
+					<ListGroup.Item>
+						Company Phone Number: {lead.companyPhone}
+					</ListGroup.Item>
+					<ListGroup.Item>
+						Contact: {lead.contactFirstName} {lead.contactLastName}
+					</ListGroup.Item>
+					<ListGroup.Item>
+						Contact Phone Number: {lead.contactPhone}
+					</ListGroup.Item>
+					<ListGroup.Item>
+						Contact Email: {lead.contactEmail}
+					</ListGroup.Item>
+					<ListGroup.Item>Address: {lead.address}</ListGroup.Item>
+				</ListGroup>
+			</Card.Body>
 			{Utilities.isManager(crmUserObject) ||
 			lead.assignedEmployeeId === crmUserObject.id ? (
-				<Container className='edit-delete-container'>
-					<Button
-						onClick={() => {
-							navigate(`/leads/edit/${lead.id}`);
-						}}>
-						Edit
-					</Button>
-					<Button
-						onClick={() => {
-							setRenderDialogBox(true);
-						}}>
-						Delete
-					</Button>
-				</Container>
+				<>
+					<Container className='edit-delete-container'>
+						<Button
+							variant='secondary'
+							onClick={() => {
+								navigate(`/leads/edit/${lead.id}`);
+							}}>
+							Edit
+						</Button>
+						<Button
+							variant='tertiary'
+							onClick={() => {
+								setRenderDialogBox(true);
+							}}>
+							Delete
+						</Button>
+					</Container>
+					{lead.id ? (
+						<Container>
+							<Comments id={lead.id} table={'leads'} />
+						</Container>
+					) : (
+						''
+					)}
+				</>
 			) : (
 				''
 			)}
@@ -75,7 +103,7 @@ const LeadDetails = () => {
 				setConfirmAction={setConfirmDelete}
 				action={'delete this lead'}
 			/>
-		</Container>
+		</Card>
 	);
 };
 

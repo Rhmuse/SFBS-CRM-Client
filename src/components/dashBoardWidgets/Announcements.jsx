@@ -16,7 +16,6 @@ const Announcements = () => {
 	const [announcements, setAnnouncements] = useState();
 	const [newAnnouncement, setNewAnnouncement] = useState({
 		posterId: crmUserObject.id,
-		announcementDate: Date.now(),
 		content: '',
 	});
 
@@ -33,38 +32,50 @@ const Announcements = () => {
 							);
 							a.posterName = `${foundUser.firstName} ${foundUser.lastName}`;
 						}
-						setAnnouncements(announcements);
+						announcements.reverse();
+						setAnnouncements(announcements.slice(0, 4));
 					});
 			});
 	}, []);
 
 	const handlePost = () => {
+		const announcementObj = {
+			posterId: newAnnouncement.posterId,
+			announcementsDate: Date.now(),
+			content: newAnnouncement.content,
+		};
+
 		const options = {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(newAnnouncement),
+			body: JSON.stringify(announcementObj),
 		};
 
 		fetch('http://localhost:8088/announcements', options).then(() => {
 			fetch('http://localhost:8088/announcements')
 				.then((res) => res.json())
 				.then((a) => {
-					setAnnouncements(a);
+					a.reverse();
+					setAnnouncements(a.slice(0, 4));
 				});
 		});
 	};
 
 	return (
 		<Card>
+			<Card.Header>
+				<Card.Title className='announcement-widget-title'>
+					<h4>Announcements</h4>
+				</Card.Title>
+			</Card.Header>
 			<Card.Body>
-				<Card.Title>Announcements</Card.Title>
-				<ListGroup>
+				<ListGroup className='announcement-list'>
 					{announcements?.map((a) => {
 						return (
 							<ListGroup.Item key={`announcement--${a.id}`}>
-								<h6>{a.content}</h6>
+								<h5>{a.content}</h5>
 								<p>
 									{Utilities.dateFormatter(
 										a.announcementDate
@@ -75,10 +86,13 @@ const Announcements = () => {
 						);
 					})}
 				</ListGroup>
+
 				{Utilities.isManager(crmUserObject) ? (
 					<Container>
 						<Row className=''>
-							<Col className='announcement-input-container flex'>
+							<Col
+								className='announcement-input-container flex'
+								sm={6}>
 								<Form.Control
 									as='textarea'
 									className='announcement-input'

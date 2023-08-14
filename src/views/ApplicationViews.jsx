@@ -1,5 +1,6 @@
 import Utilities from '../Utilities';
 import EmployeeViews from './EmployeeViews';
+import CustomerViews from './CustomerViews';
 
 import Container from 'react-bootstrap/esm/Container';
 
@@ -13,7 +14,7 @@ const ApplicationViews = () => {
 			</Container>
 		);
 	} else {
-		return <>oops</>;
+		return <CustomerViews />;
 	}
 };
 

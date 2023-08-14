@@ -75,13 +75,17 @@ const Announcements = () => {
 					{announcements?.map((a) => {
 						return (
 							<ListGroup.Item key={`announcement--${a.id}`}>
-								<h5>{a.content}</h5>
-								<p>
+								<h5 className='announcement-content'>
+									{a.content}
+								</h5>
+								<p className='announcement-details'>
 									{Utilities.dateFormatter(
 										a.announcementDate
 									)}
 								</p>
-								<p>Posted by: {a.posterName}</p>
+								<p className='announcement-details'>
+									Posted by: {a.posterName}
+								</p>
 							</ListGroup.Item>
 						);
 					})}

@@ -44,7 +44,6 @@ const NavBar = () => {
 				<Container fluid>
 					<Navbar.Brand as={NavLink} to={'/dashboard'}>
 						<Image
-							// src='https://wallpaperaccess.com/full/2376875.png'
 							src={require('./dm-logo.png')}
 							alt='logo'
 							className='logo'

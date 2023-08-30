@@ -8,15 +8,14 @@ import Navbar from 'react-bootstrap/esm/Navbar';
 import NavDropdown from 'react-bootstrap/esm/NavDropdown';
 import Container from 'react-bootstrap/esm/Container';
 import Offcanvas from 'react-bootstrap/esm/Offcanvas';
-import Form from 'react-bootstrap/esm/Form';
 import { useState } from 'react';
 
 const NavBar = () => {
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
 
-	const navigate = useNavigate();
+	const [expanded, setExpanded] = useState(false);
 
-	const [darkMode, setDarkMode] = useState('off');
+	const navigate = useNavigate();
 
 	if (crmUserObject.roles.find((r) => r === 'Customer')) {
 		return (
@@ -40,7 +39,7 @@ const NavBar = () => {
 		);
 	} else if (crmUserObject.roles.find((r) => r === 'Employee')) {
 		return (
-			<Navbar expand='lg'>
+			<Navbar expand='lg' expanded={expanded}>
 				<Container fluid>
 					<Navbar.Brand as={NavLink} to={'/dashboard'}>
 						<Image
@@ -49,7 +48,11 @@ const NavBar = () => {
 							className='logo'
 						/>
 					</Navbar.Brand>
-					<Navbar.Toggle />
+					<Navbar.Toggle
+						onClick={() =>
+							setExpanded(expanded ? false : 'expanded')
+						}
+					/>
 					<Navbar.Offcanvas
 						className='nav-collapse-container bg-body-secondary'
 						placement='end'>
@@ -60,28 +63,47 @@ const NavBar = () => {
 						</Offcanvas.Header>
 						<Offcanvas.Body>
 							<Nav className='nav-container'>
-								<Nav.Link as={NavLink} to={'/dashboard'}>
+								<Nav.Link
+									as={NavLink}
+									to={'/dashboard'}
+									onClick={() => setExpanded(false)}>
 									<b>Dashboard</b>
 								</Nav.Link>
-								<Nav.Link as={NavLink} to={'/customers'}>
+								<Nav.Link
+									as={NavLink}
+									to={'/customers'}
+									onClick={() => setExpanded(false)}>
 									<b>Customers</b>
 								</Nav.Link>
-								<Nav.Link as={NavLink} to={'/leads'}>
+								<Nav.Link
+									as={NavLink}
+									to={'/leads'}
+									onClick={() => setExpanded(false)}>
 									<b>Leads</b>
 								</Nav.Link>
-								<Nav.Link as={NavLink} to={'/orders'}>
+								<Nav.Link
+									as={NavLink}
+									to={'/orders'}
+									onClick={() => setExpanded(false)}>
 									<b>Orders</b>
 								</Nav.Link>
-								<Nav.Link as={NavLink} to={'/products'}>
+								<Nav.Link
+									as={NavLink}
+									to={'/products'}
+									onClick={() => setExpanded(false)}>
 									<b>Products</b>
 								</Nav.Link>
-								<Nav.Link as={NavLink} to={'/employees'}>
+								<Nav.Link
+									as={NavLink}
+									to={'/employees'}
+									onClick={() => setExpanded(false)}>
 									<b>Employees</b>
 								</Nav.Link>
 								<Nav.Item className='nav-profile-container'>
 									<Nav.Link
 										as={NavLink}
-										to={`/profile/${crmUserObject.id}`}>
+										to={`/profile/${crmUserObject.id}`}
+										onClick={() => setExpanded(false)}>
 										<b>Profile</b>
 									</Nav.Link>
 									<NavDropdown align='end'>

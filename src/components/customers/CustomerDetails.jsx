@@ -67,11 +67,10 @@ const CustomerDetails = () => {
 			<Card.Body>
 				<ListGroup variant='flush'>
 					<ListGroup.Item>
-						Address:
-						{customer.address}
+						<h5>Address: {customer.address}</h5>
 					</ListGroup.Item>
 					<ListGroup.Item>
-						Company Phone Number: {customer.companyPhone}
+						<h5>Company Phone Number: {customer.companyPhone}</h5>
 					</ListGroup.Item>
 				</ListGroup>
 

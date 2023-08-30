@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import Utilities from '../../Utilities';
-import AreYouSureDialog from '../dialogBoxes/AreYouSureDialog';
 import Button from 'react-bootstrap/esm/Button';
 import ListGroup from 'react-bootstrap/esm/ListGroup';
 import Col from 'react-bootstrap/esm/Col';
@@ -17,13 +16,9 @@ const OrderDetails = () => {
 	const [lineItems, setLineItems] = useState();
 	const [customer, setCustomer] = useState();
 
-	const [renderDialogBox, setRenderDialogBox] = useState(false);
-	const [confirmDelete, setConfirmDelete] = useState(false);
-
 	const { orderId } = useParams();
 
 	const crmUserObject = JSON.parse(localStorage.getItem('crm_user'));
-	const navigate = useNavigate();
 	const formatter = Utilities.moneyFormatter;
 
 	useEffect(() => {
@@ -137,12 +132,6 @@ const OrderDetails = () => {
 			) : (
 				''
 			)}
-			<AreYouSureDialog
-				isOpen={renderDialogBox}
-				setRenderDialogBox={setRenderDialogBox}
-				setConfirmAction={setConfirmDelete}
-				action={'delete this order'}
-			/>
 		</Card>
 	);
 };

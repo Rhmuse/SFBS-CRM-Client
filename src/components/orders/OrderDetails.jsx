@@ -56,22 +56,6 @@ const OrderDetails = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	useEffect(() => {
-		if (confirmDelete) {
-			const deleteOptions = {
-				method: 'DELETE',
-			};
-
-			fetch(
-				`http://localhost:8088/orders/${orderId}`,
-				deleteOptions
-			).then(() => {
-				navigate('/orders');
-			});
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [confirmDelete]);
-
 	return (
 		<Card>
 			<Card.Header>
@@ -140,13 +124,6 @@ const OrderDetails = () => {
 								downloadPdf(order.id);
 							}}>
 							Download Invoice
-						</Button>
-						<Button
-							variant='tertiary'
-							onClick={() => {
-								setRenderDialogBox(true);
-							}}>
-							Delete
 						</Button>
 					</Container>
 				) : (

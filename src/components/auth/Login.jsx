@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/esm/Button';
 import Container from 'react-bootstrap/esm/Container';
 
 export const Login = () => {
-	const [email, set] = useState('john.doe@example.com');
+	const [email, set] = useState('jhalpert@dundermifflinpaper.com');
 	const navigate = useNavigate();
 
 	const handleLogin = (e) => {

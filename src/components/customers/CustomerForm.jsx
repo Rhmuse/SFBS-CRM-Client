@@ -86,9 +86,9 @@ const CustomerForm = () => {
 						contactPhone: '',
 						userId: data.id,
 					});
+					navigate('/customers');
 				});
 			});
-		navigate('/customers');
 	};
 
 	const handleEditButton = (e) => {

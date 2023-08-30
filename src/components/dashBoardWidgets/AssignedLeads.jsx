@@ -11,7 +11,9 @@ const AssignedLeads = () => {
 	const [leads, setLeads] = useState([]);
 
 	useEffect(() => {
-		fetch(`http://localhost:8088/leads?userId=${crmUserObject.id}`)
+		fetch(
+			`http://localhost:8088/leads?assignedEmployeeId=${crmUserObject.id}`
+		)
 			.then((res) => res.json())
 			.then((l) => {
 				setLeads(l);

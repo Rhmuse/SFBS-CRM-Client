@@ -41,7 +41,7 @@ const Announcements = () => {
 	const handlePost = () => {
 		const announcementObj = {
 			posterId: newAnnouncement.posterId,
-			announcementsDate: Date.now(),
+			announcementDate: Date.now(),
 			content: newAnnouncement.content,
 		};
 
